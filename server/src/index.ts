@@ -1,14 +1,28 @@
-import * as express from "express"
+import "reflect-metadata";
+import {createConnection} from "typeorm";
+import * as express from 'express';
 
-class App {
-	public application : express.Application;
-	
-  constructor(){
-    this.application = express();
-  }
-}
-const app = new App().application;
-app.get("/",(req : express.Request , res : express.Response) =>{
-  res.send("start server!");
+//Import Routers
+
+//Connect TypeORM mysql
+createConnection()
+	.then(() => {
+		console.log('Database Connect!')
+	})
+	.catch((err) => console.log(err))
+
+const app = express();
+
+//Middlewares
+app.set('port', process.env.PORT || 4000);
+
+//Routes
+app.get('/', (_, res) => {
+  res.status(200).send('hello! Clip server!')
 })
-app.listen(4000,()=>console.log("start server!"));
+
+
+app.listen(app.get('port'), () => {
+	console.log(`Clip server listening on PORT ${app.get('port')}`)
+})
+export default app;
