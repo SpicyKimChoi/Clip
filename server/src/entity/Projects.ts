@@ -1,20 +1,18 @@
 import { 
 	Entity, 
-	Column,
+	Column, 
 	OneToMany
 } from "typeorm";
 import {ProjectPermissions} from './ProjectPermissons'
 import { Base } from "./Base";
 
-
 @Entity()
-export class Users extends Base{
-	@Column()
-	username: string;
+export class Projects extends Base{
 
 	@Column()
-	social_id: string;
+	name: string;
 
-	@OneToMany(() => ProjectPermissions, pp => pp.user_id)
+	@OneToMany(() => ProjectPermissions, pp => pp.project_id)
 	projectPermissions: ProjectPermissions[];
+
 }

@@ -8,6 +8,7 @@ import * as express from 'express';
 createConnection()
 	.then(() => {
 		console.log('Database Connect!')
+		
 		const app = express();
 
 		//Middlewares
