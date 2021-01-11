@@ -15,8 +15,10 @@ import { Comments } from "./Comments";
 export class Users extends Base{
 	@Column()
 	username: string;
-
-	@Column()
+	
+	@Column({
+		unique: true
+	})
 	social_id: string;
 
 	@OneToMany(() => ProjectPermissions, pp => pp.user_id)
