@@ -4,16 +4,16 @@ import { Users } from "../../entity/Users";
 import { errorTypes } from "../utils/errors/usersControllerErrors";
 
 export const signUp = async (req: Request, res: Response)=>{
-	const {username, social_id} = req.body;
+	const {username, social_id} = req.body; 
 	const usersRepository = getRepository(Users);
-	
+	console.log(username, social_id)
 	try{
 		//필수적인 요소가 들어오지 않은 경우 400에러
 		if(!username || !social_id) throw errorTypes.BAD_REQUEST;
 
 		//이미 등록된 Social_id가 있는 경우 409에러
-		const existsUser = await usersRepository.find(social_id);
-		if(!!existsUser) throw errorTypes.USER_ALREADY_EXIST;
+		const existsUser = await usersRepository.find({social_id: social_id});
+		if(existsUser.length !== 0) throw errorTypes.USER_ALREADY_EXIST;
 
 		//유저 
 		const user = new Users();
