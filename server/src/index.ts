@@ -3,6 +3,7 @@ import { createConnection } from "typeorm";
 import * as express from 'express';
 import * as morgan from 'morgan';
 import * as bodyParser from 'body-parser';
+import * as cookieParser from 'cookie-parser';
 
 //Import Routers
 import { usersRouter } from "./routes/users";
@@ -25,6 +26,7 @@ app.use(
 		extended: true,
 	}),
 );
+app.use(cookieParser());
 
 //Routes
 app.get('/', (_, res) => {

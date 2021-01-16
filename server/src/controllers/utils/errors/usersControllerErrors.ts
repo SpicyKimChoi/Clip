@@ -10,6 +10,10 @@ export const errorTypes: errorList = {
 		statusCode:400,
 		message: "잘못된 요청입니다."
 	},
+	TOKEN_NOT_FOUND:{
+		statusCode:403,
+		message: "토큰이 존재하지 않습니다."
+	},
 	USER_NOT_FOUND:{
 		statusCode:404,
 		message: "존재하지 않는 유저입니다."
