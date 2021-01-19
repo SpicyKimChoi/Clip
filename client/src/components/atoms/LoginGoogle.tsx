@@ -8,10 +8,10 @@ dotenv.config();
 const LoginGoogle = () => {
 
     const responseGoogle = (res: any): void => {
-        console.log('성공데스', res)
+        console.log(res)
     }
     const responseFailGoogle = (err: any): void => {
-        console.log('실패데스네', err)
+        console.log(err)
     }
     return (
         <div>
