@@ -6,6 +6,7 @@ import PublicClip from '../templates/PublicClip';
 import Inbox from '../templates/Inbox';
 import KanbanBoard from '../templates/KanbanBoard';
 
+
 function App() {
   return (
     <Page>

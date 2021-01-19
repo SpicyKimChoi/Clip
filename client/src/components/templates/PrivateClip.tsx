@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import LoginButton from "../atoms/LoginButton";
-
+import LoginGoogle from "../atoms/LoginGoogle";
 const PrivateClip = () => {
   return (
     <PrivateClipGrid>
       <LoginButton />
       PrivateClip
+      <LoginGoogle />
     </PrivateClipGrid>
   );
 };
