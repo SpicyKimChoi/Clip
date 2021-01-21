@@ -10,7 +10,7 @@ console.log(process.env.DATABASE_ENV);
 
 export default {
 	"type": "mysql",
-	"host": "localhost",
+	"host": "database",
 	"port": 3306,
 	"username": process.env.DATABASE_USERNAME,
 	"password": process.env.DATABASE_PASSWORD,

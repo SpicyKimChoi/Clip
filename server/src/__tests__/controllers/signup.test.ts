@@ -15,6 +15,7 @@ describe('users/signup 테스트', () => {
 
 	before(() => { 
 		const dbconnection = mysql.createConnection({
+			host: "172.18.0.2",
 			user: process.env.DATABASE_USERNAME,
 			password: process.env.DATABASE_PASSWORD,
 			database: process.env.DATABASE_TEST,
