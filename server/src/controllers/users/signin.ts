@@ -5,7 +5,7 @@ import { errorTypes } from "../utils/errors/usersControllerErrors";
 import * as jwt from "jsonwebtoken";
 
 export const signIn = async (req:Request, res: Response) => {
-	const {social_id} = req.body;
+	const {username, social_id} = req.body;
 	const usersRepository  = getRepository(Users);
 
 	try {
@@ -13,18 +13,29 @@ export const signIn = async (req:Request, res: Response) => {
 		if(!social_id) throw errorTypes.BAD_REQUEST;
 
 		//유저 탐색
-		const user = await usersRepository.find({social_id: social_id});
-
+		let existUser = await usersRepository.find({social_id: social_id});
+		let statusCode = 200;
 		//등록된 유저가 아닌 경우
-		if(user.length === 0) throw errorTypes.USER_NOT_FOUND;
+		if(existUser.length === 0){
+			if(!username) throw errorTypes.BAD_REQUEST;
+
+			const user = new Users();
+			user.username = username;
+			user.social_id = social_id;
+
+			await usersRepository.save(user);
+			existUser = await usersRepository.find({social_id: social_id});
+			statusCode = 201;
+		}
+
 		//데이터베이스에 유저가 2명이상 있는 경우
-		if(user.length > 1) throw errorTypes.INTERNAL_SERVER_ERROR;
-		jwt.sign({id: user[0].uuid}, process.env.jWT_SECRET, {expiresIn:'60m'}, (err, token) => {
+		if(existUser.length > 1) throw errorTypes.INTERNAL_SERVER_ERROR;
+		jwt.sign({id: existUser[0].uuid}, process.env.jWT_SECRET, {expiresIn:'60m'}, (err, token) => {
 			if(err){
 				throw errorTypes.JWT_SIGN_ERROR;
 			}else{
 				res.cookie('token', token);
-				res.status(200).json({message: 'login!'})
+				res.status(statusCode).json({message: 'login!'})
 			}
 		});
 		
