@@ -7,12 +7,12 @@ import { Projects } from "../entity/Projects";
 export class ProjectsPermissionsRepository extends AbstractRepository<ProjectPermissions> {
 
 	//권한 추가
-	async addPermission(uuid: string, projectId: number, isAdmin: boolean): Promise<ProjectPermissions>  {
+	async addPermission(userUuid: string, projectId: number, isAdmin: boolean): Promise<ProjectPermissions>  {
 		try {
 			const userRepository = getRepository(Users);
 			const projectsRepository = getRepository(Projects);
 
-			const user = await userRepository.findOne({uuid: uuid});
+			const user = await userRepository.findOne({uuid: userUuid});
 			const project = await projectsRepository.findOne({id: projectId});
 
 			const permission = new ProjectPermissions();
