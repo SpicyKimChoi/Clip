@@ -7,7 +7,7 @@ import * as jwt from "jsonwebtoken";
 
 export const create = async (req: Request, res: Response) => {
 	try {
-		const { name } = req.body;
+		const { name, description } = req.body;
 		const token = req.cookies.token;
 		const uuid = await new Promise<string> ((resolve, reject) => {
 			jwt.verify(token, process.env.jWT_SECRET, (err: never, decoded: {id:string})=>{
@@ -22,7 +22,7 @@ export const create = async (req: Request, res: Response) => {
 		if(!name || !token) throw errorTypes.TOKEN_NOT_FOUND;
 
 		//프로젝트 생성
-		const project = await projectRepo.createProject(name);
+		const project = await projectRepo.createProject(name, description);
 		await permissionRepo.addPermission(uuid, project.id, true);
 		
 		res.status(201).json(project);
