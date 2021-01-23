@@ -7,6 +7,8 @@ import * as cookieParser from 'cookie-parser';
 
 //Import Routers
 import { usersRouter } from "./routes/users";
+import { clipsRouter } from "./routes/clips";
+import { projectsRouter } from "./routes/projects";
 
 //Connect TypeORM mysql
 createConnection()
@@ -33,6 +35,8 @@ app.get('/', (_, res) => {
 	res.status(200).send('hello! Clip server!')
 });
 app.use('/users', usersRouter);
+app.use('/projects', projectsRouter);
+app.use('/clips', clipsRouter);
 
 
 app.listen(app.get('port'), () => {
