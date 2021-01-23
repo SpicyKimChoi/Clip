@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components'
-import { getDefaultFormatCodeSettings } from 'typescript';
 
 
 const Inbox = () => {

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import LoginButton from "../atoms/LoginButton";
-import LoginGoogle from "../atoms/LoginGoogle";
+import LoginButton from "../../../components/atoms/LoginButton";
+import LoginGoogle from "../../../components/atoms/LoginGoogle";
 const PrivateClip = () => {
   return (
     <PrivateClipGrid>
