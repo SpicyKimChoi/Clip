@@ -1,5 +1,7 @@
-import { EntityRepository, AbstractRepository } from "typeorm";
+import { EntityRepository, AbstractRepository, getRepository } from "typeorm";
 import { Projects } from "../entity/Projects";
+import { Users } from "../entity/Users";
+import { ProjectPermissions } from "../entity/ProjectPermissons";
 
 @EntityRepository(Projects)
 export class ProjectsRepository extends AbstractRepository<Projects> {
@@ -11,6 +13,28 @@ export class ProjectsRepository extends AbstractRepository<Projects> {
 			project.name = name;
 			return this.manager.save(project);
 			
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
+	
+	async getProjects(userUuid: string): Promise<Projects[]> {
+		try {
+			const userRepository = getRepository(Users);
+			const user = await userRepository.findOne({uuid: userUuid});
+
+			return this.repository.createQueryBuilder("proj")
+				.where(qb => {
+					qb.subQuery()
+						.select("pp.project_id")
+						.from(ProjectPermissions, "pp")
+						.where("pp.user_id = :user_id")
+						.getQuery()
+				})
+				.setParameter("user_id", user.id)
+				.getMany()
+
 		} catch (err) {
 			console.log(err);
 			return err;
