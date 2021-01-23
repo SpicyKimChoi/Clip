@@ -14,6 +14,12 @@ export class Projects extends Base{
 	@Column()
 	name: string;
 
+	@Column({
+		type: "text",
+		nullable: true
+	})
+	description: string;
+
 	@OneToMany(() => ProjectPermissions, pp => pp.project_id)
 	projectPermissions: ProjectPermissions[];
 

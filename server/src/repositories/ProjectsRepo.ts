@@ -7,10 +7,12 @@ import { ProjectPermissions } from "../entity/ProjectPermissons";
 export class ProjectsRepository extends AbstractRepository<Projects> {
 
 	//프로젝트 생성
-	createProject(name: string): Promise<Projects> {
+	createProject(name: string, description: string): Promise<Projects> {
 		try {
 			const project = new Projects();
 			project.name = name;
+			project.description = description;
+			
 			return this.manager.save(project);
 
 		} catch (err) {
