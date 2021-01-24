@@ -5,3 +5,4 @@ export const projectsRouter = Router();
 
 projectsRouter.post('/create', projectsController.create);
 projectsRouter.get('/all', projectsController.getProjects);
+projectsRouter.put('/update', projectsController.update);
