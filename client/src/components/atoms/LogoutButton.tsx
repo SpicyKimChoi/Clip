@@ -1,6 +1,5 @@
 import React from "react";
 import useLogin from "../../hooks/useLogin";
-
 const LogoutButton = () => {
   const { isLogin, onLogout } = useLogin();
   return (
@@ -10,5 +9,4 @@ const LogoutButton = () => {
     </>
   );
 };
-
 export default LogoutButton;

@@ -4,7 +4,6 @@ import { GoogleLogin } from "react-google-login";
 import * as dotenv from "dotenv";
 import useLogin from "../../hooks/useLogin";
 dotenv.config();
-
 const LoginGoogle = () => {
   const { onLogin } = useLogin();
   const responseGoogle = (res: any): void => {
@@ -26,5 +25,4 @@ const LoginGoogle = () => {
     </>
   );
 };
-
 export default LoginGoogle;

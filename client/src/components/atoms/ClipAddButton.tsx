@@ -2,7 +2,6 @@ import React from "react";
 import useModal from "../../hooks/useModal";
 import Modal from "react-modal";
 Modal.setAppElement("#root");
-
 const customStyles = {
   content: {
     top: "50%",
@@ -13,7 +12,6 @@ const customStyles = {
     transform: "translate(-50%, -50%)",
   },
 };
-
 const ClipAddButton = () => {
   const { isOpen, onOpen, onClose } = useModal();
   return (
@@ -29,12 +27,10 @@ const ClipAddButton = () => {
         <div>
           <input type="text" placeholder="Discription"></input>
         </div>
-
         <button onClick={onClose}>취소</button>
         <button onClick={() => console.log("클립 생성!")}>생성</button>
       </Modal>
     </>
   );
 };
-
 export default ClipAddButton;

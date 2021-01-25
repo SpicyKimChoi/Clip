@@ -3,7 +3,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
 import LoginGoogle from "../../atoms/LoginGoogle";
 import LogoutButton from "../../atoms/LogoutButton";
-
 const Header = () => {
   const [data, setData] = useState([]);
   const fetchMoreData = () => {
@@ -34,5 +33,4 @@ const Header = () => {
     </div>
   );
 };
-
 export default Header;
