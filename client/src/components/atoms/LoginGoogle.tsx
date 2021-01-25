@@ -2,11 +2,10 @@ import React from 'react';
 import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 import axios from 'axios';
 import * as dotenv from 'dotenv';
+
 dotenv.config();
 
-
 const LoginGoogle = () => {
-
     const responseGoogle = (res: GoogleLoginResponse | GoogleLoginResponseOffline): void => {
         if ('googleId' in res) {
             const profile = res.getBasicProfile()

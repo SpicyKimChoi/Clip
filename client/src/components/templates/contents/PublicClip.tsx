@@ -11,12 +11,11 @@ const PublicClip = () => {
     );
 };
 
-
 const PublicClipGrid = styled.div`
-    grid-column: 2 ;
-    grid-row: 1;
-    border: 1px solid;
-    border-color: blue;
-`
+  grid-column: 2;
+  grid-row: 1;
+  border: 1px solid;
+  border-color: blue;
+`;
 
 export default PublicClip;

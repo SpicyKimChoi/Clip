@@ -27,4 +27,20 @@ export class ProjectsPermissionsRepository extends AbstractRepository<ProjectPer
 		}
 	}
 
+	async getPermission(userUuid: string, projectId: number) : Promise<boolean> {
+		try {
+			const userRepository = getRepository(Users);
+			const projectsRepository = getRepository(Projects);
+
+			const user = await userRepository.findOne({uuid: userUuid});
+			const project = await projectsRepository.findOne({id: projectId});
+
+			const permission = await this.repository.findOne({user_id: user, project_id: project});
+			return permission.isAdmin;
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
+
 }
