@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import styled from "styled-components";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -31,7 +32,7 @@ const Header = () => {
             </InfiniteScroll>
         </div>
     );
-};
 
+};
 
 export default Header;
