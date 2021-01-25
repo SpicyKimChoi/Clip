@@ -2,12 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import LoginButton from "../../../components/atoms/LoginButton";
 import LoginGoogle from "../../../components/atoms/LoginGoogle";
+import ClipAddButton from "../../../components/atoms/ClipAddButton";
 const PrivateClip = () => {
   return (
     <PrivateClipGrid>
       <LoginButton />
       PrivateClip
       <LoginGoogle />
+      <ClipAddButton />
     </PrivateClipGrid>
   );
 };
