@@ -1,30 +1,31 @@
-import React from "react";
-import { GoogleLogin } from "react-google-login";
-import axios from "axios";
-import * as dotenv from "dotenv";
-import useLogin from "../../hooks/useLogin";
+import React from 'react';
+import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
+import axios from 'axios';
+import * as dotenv from 'dotenv';
+
 dotenv.config();
 
 const LoginGoogle = () => {
-  const { onLogin } = useLogin();
-  const responseGoogle = (res: any): void => {
-    console.log(res);
-    onLogin();
-  };
-  const responseFailGoogle = (err: any): void => {
-    console.log(err);
-  };
-  return (
-    <>
-      <GoogleLogin
-        clientId={process.env.REACT_APP_GOOGLE_CLIENTID!}
-        buttonText="Google login"
-        onSuccess={responseGoogle}
-        onFailure={responseFailGoogle}
-        cookiePolicy={"single_host_origin"}
-      />
-    </>
-  );
+    const responseGoogle = (res: GoogleLoginResponse | GoogleLoginResponseOffline): void => {
+        if ('googleId' in res) {
+            const profile = res.getBasicProfile()
+            console.log(res.profileObj)
+        }
+    }
+    const responseFailGoogle = (err: any): void => {
+        console.log(err)
+    }
+    return (
+        <div>
+            <GoogleLogin
+                clientId={process.env.REACT_APP_GOOGLE_CLIENTID!}
+                buttonText="Google login"
+                onSuccess={responseGoogle}
+                onFailure={responseFailGoogle}
+                cookiePolicy={'single_host_origin'}
+            />
+        </div>
+    );
 };
 
 export default LoginGoogle;

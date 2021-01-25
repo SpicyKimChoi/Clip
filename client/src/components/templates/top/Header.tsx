@@ -1,7 +1,7 @@
-
 import React, { useState } from 'react';
 import styled from "styled-components";
 import InfiniteScroll from "react-infinite-scroll-component";
+import LoginGoogle from "../../atoms/LoginGoogle";
 import axios from 'axios'
 
 const Header = () => {
@@ -18,18 +18,18 @@ const Header = () => {
     }
     return (
         <div>
-            <h1>demo: 인피니티스크롤</h1>
-            <hr />
+            <div>demo: 인피니티스크롤</div>
             <InfiniteScroll
                 dataLength={data.length}
                 next={fetchMoreData}
                 hasMore={true}
-                loader={<h4>Loading...</h4>}
+                loader={<div>Loading...</div>}
             >
                 {data.map((i, idx) => {
                     <div key={idx}>div-#{idx}</div>
                 })}
             </InfiniteScroll>
+            <LoginGoogle />
         </div>
     );
 
