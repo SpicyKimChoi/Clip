@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components'
-
+import AddClip from "../../atoms/AddClip";
 
 const PublicClip = () => {
     return (
         <PublicClipGrid>
             PublicClip
+            <AddClip />
         </PublicClipGrid>
     );
 };
