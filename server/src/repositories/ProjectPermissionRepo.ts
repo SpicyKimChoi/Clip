@@ -68,4 +68,42 @@ export class ProjectsPermissionsRepository extends AbstractRepository<ProjectPer
 		}
 	}
 
+	async isUserInsideProj(userUuid: string, projectId: number): Promise<boolean> {
+		try {
+			const userRepository = getRepository(Users);
+			const projectsRepository = getRepository(Projects);
+
+			const user = await userRepository.findOne({uuid: userUuid});
+			const project = await projectsRepository.findOne({id: projectId});
+
+			const permission = await this.repository.findOne({user_id: user, project_id: project});
+
+			return !!permission;
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
+
+	async getUsers (userUuid: string, projectId: number): Promise<ProjectPermissions[]> {
+		try {
+			const projectsRepository = getRepository(Projects);
+
+			const isin = await this.isUserInsideProj(userUuid, projectId);
+			if(!isin) throw new Error();
+
+			const project = await projectsRepository.findOne({id: projectId});
+
+			return this.repository.createQueryBuilder('pp')
+				.leftJoinAndSelect("pp.user_id", 'u')
+				.select(['pp.isAdmin', 'u.uuid', 'u.username', 'u.email'])
+				.where("pp.user_id = u.id")
+				.andWhere('pp.project_id = :proj_id', {proj_id: project.id})
+				.getMany();
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
+
 }
