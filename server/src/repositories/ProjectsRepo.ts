@@ -2,6 +2,7 @@ import { EntityRepository, AbstractRepository, getRepository, getCustomRepositor
 import { Projects } from "../entity/Projects";
 import { Users } from "../entity/Users";
 import { ProjectPermissions } from "../entity/ProjectPermissons";
+import { ProjectsPermissionsRepository } from "./ProjectPermissionRepo";
 
 @EntityRepository(Projects)
 export class ProjectsRepository extends AbstractRepository<Projects> {
@@ -60,6 +61,21 @@ export class ProjectsRepository extends AbstractRepository<Projects> {
 
 			//변경된 프로젝트 반환
 			return this.repository.findOne({id: Number(projectId)});
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
+
+	async deleteProject(userUuid: string, projectId: number) {
+		try {
+			const projPermissionRepo = getCustomRepository(ProjectsPermissionsRepository);
+			const isAdmin = await projPermissionRepo.getPermission(userUuid, projectId);
+
+			if(!isAdmin) throw new Error('권한 없음');
+
+			await this.repository.delete({id: projectId});
+
 		} catch (err) {
 			console.log(err);
 			return err;

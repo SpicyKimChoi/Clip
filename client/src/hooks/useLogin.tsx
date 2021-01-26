@@ -1,4 +1,5 @@
-import React, { useCallback } from "react";
+/*eslint-disable no-unused-vars*/
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../modules/index";
 import { login, logout } from "../modules/Login";

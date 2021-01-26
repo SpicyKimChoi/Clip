@@ -32,7 +32,6 @@ const Header = () => {
             <LoginGoogle />
         </div>
     );
-
 };
 
 export default Header;

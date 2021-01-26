@@ -5,7 +5,7 @@ import { errorTypes } from "../utils/errors/usersControllerErrors";
 import * as jwt from "jsonwebtoken";
 
 export const signIn = async (req:Request, res: Response) => {
-	const {username, social_id} = req.body;
+	const {username, social_id, email} = req.body;
 	const usersRepository  = getRepository(Users);
 
 	try {
@@ -22,6 +22,7 @@ export const signIn = async (req:Request, res: Response) => {
 			const user = new Users();
 			user.username = username;
 			user.social_id = social_id;
+			user.email = email;
 
 			await usersRepository.save(user);
 			existUser = await usersRepository.find({social_id: social_id});

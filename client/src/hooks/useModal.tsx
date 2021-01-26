@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../modules/index";
 import { modalOpen, modalClose } from "../modules/ModalState";
