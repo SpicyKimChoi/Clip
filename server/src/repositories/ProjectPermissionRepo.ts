@@ -43,4 +43,29 @@ export class ProjectsPermissionsRepository extends AbstractRepository<ProjectPer
 		}
 	}
 
+	async inviteTeammate(userUuid: string, projectId: number, email: string, isAdmin: boolean): Promise<ProjectPermissions> {
+		try {
+			const userRepository = getRepository(Users);
+			const projectsRepository = getRepository(Projects);
+
+			const isamiAdmin = await this.getPermission(userUuid, projectId);
+			if(!isamiAdmin) throw new Error();
+
+			const teammate = await userRepository.findOne({email: email});
+			const project = await projectsRepository.findOne({id: projectId});
+			console.log(teammate);
+
+			const permission = new ProjectPermissions();
+			permission.project_id = project;
+			permission.user_id = teammate;
+			permission.isAdmin = isAdmin;
+			// console.log(permission);
+			return this.manager.save(permission);
+
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
+
 }
