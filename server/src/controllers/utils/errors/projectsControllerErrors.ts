@@ -14,6 +14,10 @@ export const errorTypes: errorList = {
 		statusCode:403,
 		message: "토큰이 존재하지 않습니다."
 	},
+	PERMISSION_ERROR:{
+		statusCode:403,
+		message: "해당하는 권한이 없습니다."
+	},
 	USER_NOT_FOUND:{
 		statusCode:404,
 		message: "존재하지 않는 유저입니다."

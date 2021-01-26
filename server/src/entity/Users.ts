@@ -21,6 +21,9 @@ export class Users extends Base{
 	})
 	social_id: string;
 
+	@Column()
+	email: string;
+
 	@OneToMany(() => ProjectPermissions, pp => pp.user_id)
 	projectPermissions: ProjectPermissions[];
 
