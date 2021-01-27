@@ -4,6 +4,7 @@ import { update } from "./update";
 import { delPorj } from "./delete";
 import { invite } from "./invite";
 import { getUsers } from "./getUsers";
+import { kickTeam } from "./kickTeam";
 
 export const projectsController = {
 	create,
@@ -12,4 +13,5 @@ export const projectsController = {
 	delPorj,
 	invite,
 	getUsers,
+	kickTeam,
 }

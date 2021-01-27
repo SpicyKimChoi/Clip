@@ -53,7 +53,7 @@ export class ProjectsPermissionsRepository extends AbstractRepository<ProjectPer
 
 			const teammate = await userRepository.findOne({email: email});
 			const project = await projectsRepository.findOne({id: projectId});
-			console.log(teammate);
+			// console.log(teammate);
 
 			const permission = new ProjectPermissions();
 			permission.project_id = project;
@@ -106,4 +106,23 @@ export class ProjectsPermissionsRepository extends AbstractRepository<ProjectPer
 		}
 	}
 
+	async kickUser (userUuid: string, projectId: number, email: string): Promise<ProjectPermissions[]> {
+		try {
+			const userRepository = getRepository(Users);
+			const projectsRepository = getRepository(Projects);
+
+			const isamiAdmin = await this.getPermission(userUuid, projectId);
+			if(!isamiAdmin) throw new Error();
+
+			const teammate = await userRepository.findOne({email: email});
+			const project = await projectsRepository.findOne({id: projectId});
+
+			await this.repository.delete({user_id: teammate, project_id: project});
+
+			return this.getUsers(userUuid, projectId);
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
 }
