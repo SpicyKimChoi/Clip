@@ -10,3 +10,4 @@ projectsRouter.delete('/del', projectsController.delPorj);
 projectsRouter.post('/invite', projectsController.invite);
 projectsRouter.get('/getUsers', projectsController.getUsers);
 projectsRouter.delete('/kick', projectsController.kickTeam);
+projectsRouter.put('/editpp', projectsController.editPermisison);

@@ -5,6 +5,7 @@ import { delPorj } from "./delete";
 import { invite } from "./invite";
 import { getUsers } from "./getUsers";
 import { kickTeam } from "./kickTeam";
+import { editPermisison } from "./editPermission";
 
 export const projectsController = {
 	create,
@@ -14,4 +15,5 @@ export const projectsController = {
 	invite,
 	getUsers,
 	kickTeam,
+	editPermisison,
 }
