@@ -97,4 +97,44 @@ export class ClipsRepository extends AbstractRepository<Clips>{
 			return err;
 		}
 	}
+
+	async editClip(clipId: number, projectId: string, userUuid: string, title: string, description: string): Promise<Clips>{
+		try {
+			const customProjRepo = getCustomRepository(ProjectsPermissionsRepository)
+			const isin = await customProjRepo.isUserInsideProj(userUuid, Number(projectId));
+			if (!isin) throw new Error();
+
+			const projRepo = getRepository(Projects);
+			const userRepo = getRepository(Users);
+
+			const proj = await projRepo.findOne({id: Number(projectId)});
+			const user = await userRepo.findOne({uuid: userUuid});
+			// const clip = await this.repository.findOne({id: clipId});
+			const clip = await this.repository
+				.createQueryBuilder('c')
+				.leftJoinAndSelect('c.user_id', 'u')
+				.leftJoinAndSelect('c.project_id', 'p')
+				.where('c.id = :clipId', {clipId})
+				.getOne();
+
+			title = title || clip.title;
+			description = description || clip.description;
+			
+			console.log(clip);
+			if(clip.user_id !== undefined){
+				console.log(clip.user_id);
+				console.log(user.id);
+				if(clip.user_id.id !== user.id) throw new Error();
+			}
+
+			if(clip.project_id.id !== proj.id) throw new Error();
+
+			await this.repository.update({id: clipId}, {title, description});
+
+			return this.repository.findOne({id: clipId});
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
 } 
