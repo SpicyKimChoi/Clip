@@ -12,7 +12,7 @@ const Inbox = () => {
 
 
 
-const InboxGrid = styled.div`
+const InboxGrid = styled.section`
     grid-column: 1;
     grid-row: 2/3;
     border: 1px solid;

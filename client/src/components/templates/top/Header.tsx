@@ -25,14 +25,14 @@ const Header = () => {
         }, 1000); // 시간 차 주지 않으면 스크롤 계속 내려감!
     }
     return (
-        <div>
+        <header style={{ overflow: "scroll" }} id="scrollHeader">
             <p>여기서 시작</p>
             <InfiniteScroll
                 dataLength={items.length} //This is important field to render the next data
                 next={fetchMoreData}
                 hasMore={hasMore}
                 loader={<h4>Loading...</h4>}
-                scrollableTarget="scrollableDiv"
+                scrollableTarget="scrollHeader"
             >
                 {items && items.map((data: object | any, i: number) => {
                     let title = data.title;
@@ -44,8 +44,9 @@ const Header = () => {
                     )
                 })}
             </InfiniteScroll>
-        </div>
+        </header>
     );
 }
+
 
 export default Header;

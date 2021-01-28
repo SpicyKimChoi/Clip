@@ -5,7 +5,7 @@ const PublicClip = () => {
   return <PublicClipGrid>PublicClip</PublicClipGrid>;
 };
 
-const PublicClipGrid = styled.div`
+const PublicClipGrid = styled.section`
   grid-column: 2;
   grid-row: 1;
   border: 1px solid;

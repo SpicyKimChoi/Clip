@@ -11,7 +11,7 @@ const KanbanBoard = () => {
 };
 
 
-const KanbanBoardGrid = styled.div`
+const KanbanBoardGrid = styled.section`
     grid-column: 2;
     grid-row: 2/3;
     border: 1px solid;
