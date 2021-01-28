@@ -1,7 +1,8 @@
-import { EntityRepository, AbstractRepository, getRepository } from "typeorm";
+import { EntityRepository, AbstractRepository, getRepository, getCustomRepository } from "typeorm";
 import { Clips, ClipType } from "../entity/Clips";
 import { Projects } from "../entity/Projects";
 import { Users } from "../entity/Users";
+import { ProjectsPermissionsRepository } from "../repositories/ProjectPermissionRepo"
 
 @EntityRepository(Clips)
 export class ClipsRepository extends AbstractRepository<Clips>{
@@ -34,6 +35,10 @@ export class ClipsRepository extends AbstractRepository<Clips>{
 
 	async createClip(tilte: string, description: string, isMemo: boolean, isPrivate: boolean, uuid: string, projId: number){
 		try {
+			const customProjRepo = getCustomRepository(ProjectsPermissionsRepository)
+			const isin = await customProjRepo.isUserInsideProj(uuid, projId);
+			if (!isin) throw new Error();
+
 			const clip = new Clips();
 
 			const projRepo = getRepository(Projects);
@@ -61,6 +66,29 @@ export class ClipsRepository extends AbstractRepository<Clips>{
 			
 
 			return this.repository.save(clip);
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
+
+	async getLists(userUuid: string, projectId: string | undefined, isPrivate: string | undefined): Promise<Clips[]>{
+		try {
+			const customProjRepo = getCustomRepository(ProjectsPermissionsRepository)
+			const isin = await customProjRepo.isUserInsideProj(userUuid, Number(projectId));
+			if (!isin) throw new Error();
+
+			const projRepo = getRepository(Projects);
+			const userRepo = getRepository(Users);
+
+			const proj = await projRepo.findOne({id: Number(projectId)});
+			const user = await userRepo.findOne({uuid: userUuid});
+
+			if(isPrivate === undefined){
+				return this.repository.find({user_id:user, project_id: proj});
+			}else{
+				return this.repository.find({user_id:null, project_id: proj});
+			}
 		} catch (err) {
 			console.log(err);
 			return err;
