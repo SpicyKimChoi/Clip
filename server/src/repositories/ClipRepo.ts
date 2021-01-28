@@ -72,7 +72,7 @@ export class ClipsRepository extends AbstractRepository<Clips>{
 		}
 	}
 
-	async getLists(userUuid: string, projectId: string | undefined, isPrivate: string | undefined): Promise<Clips[]>{
+	async getLists(userUuid: string, projectId: string, isPrivate: boolean): Promise<Clips[]>{
 		try {
 			const customProjRepo = getCustomRepository(ProjectsPermissionsRepository)
 			const isin = await customProjRepo.isUserInsideProj(userUuid, Number(projectId));
@@ -84,9 +84,12 @@ export class ClipsRepository extends AbstractRepository<Clips>{
 			const proj = await projRepo.findOne({id: Number(projectId)});
 			const user = await userRepo.findOne({uuid: userUuid});
 
-			if(isPrivate === undefined){
+			console.log(isPrivate);
+			if(isPrivate){
+				// console.log('private')
 				return this.repository.find({user_id:user, project_id: proj});
 			}else{
+				// console.log('pulic')
 				return this.repository.find({user_id:null, project_id: proj});
 			}
 		} catch (err) {

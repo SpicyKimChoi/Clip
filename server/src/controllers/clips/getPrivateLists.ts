@@ -4,9 +4,9 @@ import * as jwt from "jsonwebtoken";
 import { getCustomRepository } from "typeorm";
 import { ClipsRepository } from "../../repositories/ClipRepo";
 
-export const getList = async (req: Request, res: Response) => {
+export const getPrivateList = async (req: Request, res: Response) => {
 	try {
-		const { projectId, isPrivate } = req.query;
+		const { projectId } = req.query;
 		if(!req.cookies) throw errorTypes.BAD_REQUEST;
 
 		const token = req.cookies.token;
@@ -19,7 +19,7 @@ export const getList = async (req: Request, res: Response) => {
 
 		const clipRepo = getCustomRepository(ClipsRepository);
 		// clipRepo.getLists(uuid, projectId, isPrivate)
-		clipRepo.getLists(uuid, String(projectId), String(isPrivate))
+		clipRepo.getLists(uuid, String(projectId), true)
 			.then(data => {
 				console.log(data);
 				res.status(200).json(data);

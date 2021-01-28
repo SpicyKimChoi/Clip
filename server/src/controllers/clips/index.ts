@@ -1,7 +1,9 @@
 import { create } from "./create";
-import { getList } from "./getLists";
+import { getPrivateList } from "./getPrivateLists";
+import { getPublicList } from "./getPublicLists";
 
 export const clipsController = {
 	create,
-	getList,
+	getPrivateList,
+	getPublicList,
 }
