@@ -3,12 +3,11 @@ import styled from "styled-components";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoginGoogle from "../../atoms/LoginGoogle";
 import axios from 'axios'
-import { setgid } from 'process';
 
 const Header = () => {
-    const [addData, setAddData] = useState(8);
+    const [addData, setAddData] = useState(2);
     const [prevData, setPrevData] = useState(0);
-    const [data, setData] = useState(addData); // 4 or 8
+    const [data, setData] = useState(addData); // 2 or 4
     const [hasMore, setHasMore] = useState(true);
     const [items, setItems] = useState([] as any);
 
@@ -26,21 +25,28 @@ const Header = () => {
         }, 1000); // 시간 차 주지 않으면 스크롤 계속 내려감!
     }
     return (
-        <div>
+        <header style={{ overflow: "scroll" }} id="scrollHeader">
             <p>여기서 시작</p>
             <InfiniteScroll
                 dataLength={items.length} //This is important field to render the next data
                 next={fetchMoreData}
                 hasMore={hasMore}
                 loader={<h4>Loading...</h4>}
-                scrollableTarget="scrollableDiv"
+                scrollableTarget="scrollHeader"
             >
-                {items && items.map((data: any, i: any) => {
-                    { console.log(data) }
+                {items && items.map((data: object | any, i: number) => {
+                    let title = data.title;
+                    return (
+                        <div key={i}>
+                            {title}
+                        </div>
+
+                    )
                 })}
             </InfiniteScroll>
-        </div>
+        </header>
     );
 }
+
 
 export default Header;
