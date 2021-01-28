@@ -5,4 +5,4 @@ export const clipsRouter = Router();
 clipsRouter.post('/create', clipsController.create);
 clipsRouter.get('/getPrivate', clipsController.getPrivateList);
 clipsRouter.get('/getPublic', clipsController.getPublicList);
-
+clipsRouter.put('/edit', clipsController.edit);
