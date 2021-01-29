@@ -10,7 +10,7 @@ const PrivateClip = () => {
   );
 };
 
-const PrivateClipGrid = styled.div`
+const PrivateClipGrid = styled.section`
   grid-column: 1;
   grid-row: 1;
   border: 1px solid;

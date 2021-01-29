@@ -1,36 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
 import LoginGoogle from "../../atoms/LoginGoogle";
 import LogoutButton from "../../atoms/LogoutButton";
 const Header = () => {
-  const [data, setData] = useState([]);
+  const [addData, setAddData] = useState(2);
+  const [prevData, setPrevData] = useState(0);
+  const [data, setData] = useState(addData); // 2 or 4
+  const [hasMore, setHasMore] = useState(true);
+  const [items, setItems] = useState([] as any);
+
   const fetchMoreData = () => {
     setTimeout(() => {
-      axios.get(`https://jsonplaceholder.typicode.com/posts`).then((res) => {
+      axios.get(`https://koreanjson.com/todos`).then((res) => {
         // console.log("res.data:", res.data);
+        let fourData = res.data.slice(prevData, data);
         //updating data
-        setData(res.data.slice(0, 5));
+        setItems([...items, ...fourData]);
+        setPrevData(prevData + addData);
+        setData(data + addData);
       });
     }, 1000); // 시간 차 주지 않으면 스크롤 계속 내려감!
   };
   return (
-    <div>
-      <div>demo: 인피니티스크롤</div>
-      <hr />
-      <LoginGoogle />
-      <LogoutButton />
+    <header style={{ overflow: "scroll" }} id="scrollHeader">
+      <p>여기서 시작</p>
       <InfiniteScroll
-        dataLength={data.length}
+        dataLength={items.length} //This is important field to render the next data
         next={fetchMoreData}
-        hasMore={true}
-        loader={<div>Loading...</div>}
+        hasMore={hasMore}
+        loader={<h4>Loading...</h4>}
+        scrollableTarget="scrollHeader"
       >
-        {data.map((i, idx) => {
-          return <div key={idx}>div-#{idx}</div>;
-        })}
+        {items &&
+          items.map((data: object | any, i: number) => {
+            let title = data.title;
+            return <div key={i}>{title}</div>;
+          })}
       </InfiniteScroll>
-    </div>
+    </header>
   );
 };
+
 export default Header;
