@@ -13,17 +13,13 @@ export class PrivateClipsRepository extends AbstractRepository<PrivateClips>{
 			const userRepo = getRepository(Users);
 
 			const proj = await projRepo.findOne({id: projId});
-			let num: number;
-			if(!!userUuid){
-				const user = await userRepo.findOne({uuid: userUuid});
-				const obj = await this.repository.findAndCount({user_id: user, project_id:proj});
-				num = obj[1];
-			}else{
-				const obj = await this.repository.findAndCount({user_id: null, project_id:proj});
-				num = obj[1];
-			}
-			if(num === undefined) num = 0;
-			return num;
+			const user = await userRepo.findOne({uuid: userUuid});
+
+			const obj = await this.repository.findAndCount({user_id: user, project_id:proj});
+			const num = obj[1];
+			console.log(obj);
+
+			return num || 0;
 
 		} catch (err) {
 			console.log(err);
@@ -53,11 +49,31 @@ export class PrivateClipsRepository extends AbstractRepository<PrivateClips>{
 			if(isMemo) clip.type = ClipType.MEMO;
 			else clip.type = ClipType.BOOKMARK;
 
-			return this.repository.create(clip);
+			return this.repository.save(clip);
 			
 		} catch (error) {
 			console.log(error);
 			return new Error(error);
 		}	
+	}
+
+	async getAllClips(userUuid: string, projectId: number) {
+		try {
+			const ppRepo = getCustomRepository(ProjectsPermissionsRepository);
+			const isin = await ppRepo.isUserInsideProj(userUuid, projectId);
+			console.log(isin);
+			if(!isin) throw (errorTypes.PERMISSION_ERROR.message) //해당 프로젝트에 유저가 없음
+
+			const userRepo = getRepository(Users);
+			const projRepo = getRepository(Projects);
+
+			const user = await userRepo.findOne({uuid: userUuid});
+			const proj = await projRepo.findOne({id: projectId});
+
+			return this.repository.find({user_id: user, project_id: proj});
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
 	}
 } 
