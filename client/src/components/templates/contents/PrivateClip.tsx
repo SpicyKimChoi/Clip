@@ -2,10 +2,12 @@ import React from "react";
 import styled from "styled-components";
 
 import ClipAddButton from "../../../components/atoms/ClipAddButton";
+
 const PrivateClip = () => {
   return (
-    <PrivateClipGrid>
+    <PrivateClipGrid style={{ overflow: "scroll" }}>
       <ClipAddButton />
+
     </PrivateClipGrid>
   );
 };
