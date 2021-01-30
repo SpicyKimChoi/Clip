@@ -13,7 +13,7 @@ export enum ClipType {
 }
 
 @Entity()
-export class Clips extends Base {
+export class PrivateClips extends Base {
 	@Column()
 	title: string;
 
@@ -38,7 +38,7 @@ export class Clips extends Base {
   })
 	user_id!: Users; 
 	
-	@ManyToOne(() => Projects, (proj) => proj.clips, {
+	@ManyToOne(() => Projects, (proj) => proj.privateClips, {
     onDelete: "CASCADE",
   })
   project_id!: Projects; 
