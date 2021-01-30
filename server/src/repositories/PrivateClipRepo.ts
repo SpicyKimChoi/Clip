@@ -82,7 +82,6 @@ export class PrivateClipsRepository extends AbstractRepository<PrivateClips>{
 		
 			const userRepo = getRepository(Users);
 			const user = await userRepo.findOne({uuid: userUuid});
-			// const clip = await this.repository.findOne({id:clipId});
 			const clip = await this.repository
 				.createQueryBuilder('c')
 				.leftJoinAndSelect('c.user_id', 'u')
@@ -92,6 +91,30 @@ export class PrivateClipsRepository extends AbstractRepository<PrivateClips>{
 			if(clip.user_id.id !== user.id) throw new Error("permission Error")
 
 			return clip;
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
+
+	async editClip(userUuid: string, clipId:number, title: string, description: string){
+		try {
+			const userRepo = getRepository(Users);
+			const user = await userRepo.findOne({uuid: userUuid});
+			const clip = await this.repository
+				.createQueryBuilder('c')
+				.leftJoinAndSelect('c.user_id', 'u')
+				.where('c.id = :clipId', {clipId})
+				.getOne();
+
+			if(clip.user_id.id !== user.id) throw new Error("permission Error")
+
+			title = title || clip.title;
+			description = description || clip.description;
+
+			await this.repository.update({id: clipId}, {title, description});
+			
+			return this.repository.findOne({id: clipId});
 		} catch (err) {
 			console.log(err);
 			return err;
