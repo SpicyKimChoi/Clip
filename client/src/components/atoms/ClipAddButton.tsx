@@ -1,7 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useModal from "../../hooks/useModal";
 import Modal from "react-modal";
+import styled from "styled-components";
+
 Modal.setAppElement("#root");
+type Clip = {
+  title: string;
+  url: string;
+  discription: string;
+};
 const customStyles = {
   content: {
     top: "50%",
@@ -13,21 +20,29 @@ const customStyles = {
   },
 };
 const ClipAddButton = () => {
+  const data: Clip[] = [];
   const { isOpen, onOpen, onClose } = useModal();
   const [inputs, setInputs] = useState({
     title: "",
     url: "",
     discription: "",
   });
-  const [clipState, setClipState] = useState(false);
+  const [clipData, setClipData] = useState<Clip[]>([]);
   const { title, url, discription } = inputs;
 
   const onClick = () => {
-    console.log("클립 생성!", inputs, clipState);
+    console.log("클립 생성!", inputs);
+
+    let temp = clipData.slice();
+    temp.push(inputs);
+    setClipData(temp);
+    console.log(data, "data check");
+
     onClose();
-    setClipState(true);
     onReset();
+    return data;
   };
+
   const onChange = (e: any) => {
     const { name, value } = e.target;
     const nextInputs = {
@@ -48,15 +63,25 @@ const ClipAddButton = () => {
   return (
     <>
       <button onClick={onOpen}>+</button>
-      {clipState ? (
-        <div>
-          <div>{inputs.title}</div>
-          <div>{inputs.url}</div>
-          <div>{inputs.discription}</div>
-        </div>
-      ) : (
+      {clipData.length === 0 ? (
         <div></div>
+      ) : (
+        clipData.map((clip: Clip, idx: number) => {
+          console.log(clip, "clip");
+          return (
+            <Clip key={idx}>
+              <div>{clip.title}</div>
+              <a href={clip.url} target="_blank">
+                링크
+              </a>
+              <div>{clip.discription}</div>
+              <button>삭제</button>
+              <button>수정</button>
+            </Clip>
+          );
+        })
       )}
+
       <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles}>
         <div>
           <input
@@ -88,4 +113,10 @@ const ClipAddButton = () => {
     </>
   );
 };
+
+const Clip = styled.div`
+  border: 1px solid;
+  border-color: green;
+`;
+
 export default ClipAddButton;
