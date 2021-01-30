@@ -2,7 +2,11 @@ import React from "react";
 import styled from "styled-components";
 
 const PublicClip = () => {
-  return <PublicClipGrid>PublicClip</PublicClipGrid>;
+  return (
+    <PublicClipGrid style={{ overflow: 'scroll' }}>
+      PublicClip
+    </PublicClipGrid>
+  );
 };
 
 const PublicClipGrid = styled.section`
