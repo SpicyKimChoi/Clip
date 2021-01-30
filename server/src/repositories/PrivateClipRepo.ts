@@ -76,4 +76,25 @@ export class PrivateClipsRepository extends AbstractRepository<PrivateClips>{
 			return err;
 		}
 	}
+
+	async getClip(userUuid: string, clipId: number) {
+		try {
+		
+			const userRepo = getRepository(Users);
+			const user = await userRepo.findOne({uuid: userUuid});
+			// const clip = await this.repository.findOne({id:clipId});
+			const clip = await this.repository
+				.createQueryBuilder('c')
+				.leftJoinAndSelect('c.user_id', 'u')
+				.where('c.id = :clipId', {clipId})
+				.getOne();
+
+			if(clip.user_id.id !== user.id) throw new Error("permission Error")
+
+			return clip;
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
 } 
