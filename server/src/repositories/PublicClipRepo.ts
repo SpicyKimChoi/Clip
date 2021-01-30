@@ -1,6 +1,5 @@
 import { EntityRepository, AbstractRepository, getRepository, getCustomRepository } from "typeorm";
 import { Projects } from "../entity/Projects";
-import { Users } from "../entity/Users";
 import { ProjectsPermissionsRepository } from "./ProjectPermissionRepo"
 import { errorTypes } from "../controllers/utils/errors/privateClipsErrors";
 import { PublicClips, ClipType } from "../entity/PublicClips";
