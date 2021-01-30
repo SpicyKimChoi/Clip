@@ -70,7 +70,10 @@ export class PrivateClipsRepository extends AbstractRepository<PrivateClips>{
 			const user = await userRepo.findOne({uuid: userUuid});
 			const proj = await projRepo.findOne({id: projectId});
 
-			return this.repository.find({user_id: user, project_id: proj});
+			return this.repository.find({
+				where: {user_id:user, project_id: proj},
+				order: {index: 'ASC'}
+			});
 		} catch (err) {
 			console.log(err);
 			return err;
@@ -113,8 +116,47 @@ export class PrivateClipsRepository extends AbstractRepository<PrivateClips>{
 			description = description || clip.description;
 
 			await this.repository.update({id: clipId}, {title, description});
-			
+
 			return this.repository.findOne({id: clipId});
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
+
+	async delClip(userUuid: string, clipId:number, projectId: number){
+		try {
+			const userRepo = getRepository(Users);
+			const projRepo = getRepository(Projects);
+
+			const user = await userRepo.findOne({uuid: userUuid});
+			const proj = await projRepo.findOne({id: projectId});
+			const clip = await this.repository
+				.createQueryBuilder('c')
+				.leftJoinAndSelect('c.user_id', 'u')
+				.where('c.id = :clipId', {clipId})
+				.getOne();
+
+			if(clip.user_id.id !== user.id) throw new Error("permission Error")
+
+			const clips = await this.repository
+				.createQueryBuilder('c')
+				.leftJoinAndSelect('c.user_id', 'u')
+				.leftJoinAndSelect('c.project_id', 'p')
+				.where('u.uuid  = :uuid', {uuid: userUuid})
+				.andWhere('p.id = :projectId', {projectId: projectId})
+				.andWhere('c.index > :curIdx', {curIdx: clip.index})
+				.getMany()
+
+			await this.repository.delete({id: clipId});
+
+			for(let i = 0; i < clips.length; i++){
+				await this.repository.update({id: clips[i].id}, {index: clips[i].index - 1});
+			}
+			return this.repository.find({
+				where: {user_id:user, project_id: proj},
+				order: {index: 'ASC'}
+			});
 		} catch (err) {
 			console.log(err);
 			return err;
