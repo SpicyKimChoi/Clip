@@ -5,7 +5,7 @@ import {
 } from "typeorm";
 import {ProjectPermissions} from './ProjectPermissons'
 import { Base } from "./Base";
-import { Clips } from "./Clips";
+import { PrivateClips } from "./PrivateClips";
 import { Assignee } from "./Assignee";
 import { Likes } from "./Likes";
 import { Comments } from "./Comments";
@@ -27,8 +27,8 @@ export class Users extends Base{
 	@OneToMany(() => ProjectPermissions, pp => pp.user_id)
 	projectPermissions: ProjectPermissions[];
 
-	@OneToMany(() => Clips, clip => clip.user_id)
-	clips: Clips[];
+	@OneToMany(() => PrivateClips, clip => clip.user_id)
+	clips: PrivateClips[];
 
 	@OneToMany(() => Assignee, a => a.user_id)
 	assignee: Assignee[];

@@ -5,8 +5,9 @@ import {
 } from "typeorm";
 import {ProjectPermissions} from './ProjectPermissons'
 import { Base } from "./Base";
-import { Clips } from "./Clips";
+import { PrivateClips } from "./PrivateClips";
 import { Sections } from "./Sections";
+import { PublicClips } from "./PublicClips";
 
 @Entity()
 export class Projects extends Base{
@@ -23,8 +24,11 @@ export class Projects extends Base{
 	@OneToMany(() => ProjectPermissions, pp => pp.project_id)
 	projectPermissions: ProjectPermissions[];
 
-	@OneToMany(() => Clips, clip => clip.project_id)
-	clips: Clips[];
+	@OneToMany(() => PrivateClips, clip => clip.project_id)
+	privateClips: PrivateClips[];
+
+	@OneToMany(() => PublicClips, clip => clip.project_id)
+	publicClips: PublicClips[];
 
 	@OneToMany(() => Sections, section => section.project_id)
 	section: Sections[];
