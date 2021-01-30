@@ -47,4 +47,21 @@ export class SectionsRepository extends AbstractRepository<Sections>{
 			return err;
 		}
 	}
+
+	async editSect (userUuid: string, projectId: number, sectionId:number, title: string){
+		try {
+			const ppRepo = getCustomRepository(ProjectsPermissionsRepository);
+			const isin = await ppRepo.isUserInsideProj(userUuid, projectId);
+			console.log(isin);
+			if (!isin) throw new Error('해당 프로젝트에 유저가 없음');
+
+			await this.repository.update({id: sectionId}, {title: title});
+
+			return this.repository.findOne({id: sectionId});
+
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
 }
