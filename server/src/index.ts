@@ -9,6 +9,7 @@ import * as cookieParser from 'cookie-parser';
 import { usersRouter } from "./routes/users";
 import { clipsRouter } from "./routes/clips";
 import { projectsRouter } from "./routes/projects";
+import { sectionsRouter } from "./routes/sections"
 
 //Connect TypeORM mysql
 createConnection()
@@ -37,6 +38,7 @@ app.get('/', (_, res) => {
 app.use('/users', usersRouter);
 app.use('/projects', projectsRouter);
 app.use('/clips', clipsRouter);
+app.use('/sections', sectionsRouter)
 
 
 app.listen(app.get('port'), () => {
