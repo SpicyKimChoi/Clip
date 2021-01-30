@@ -3,6 +3,7 @@ import { getAllClips } from "./getAllClips";
 import { getClip } from "./getClip";
 import { editClip } from "./editClip";
 import { delClip } from "./delClip";
+import { moveClip } from "./moveClip";
 
 export const privateClipsController = {
 	createClip,
@@ -10,4 +11,5 @@ export const privateClipsController = {
 	getClip,
 	editClip,
 	delClip,
+	moveClip,
 }
