@@ -1,4 +1,4 @@
-import { EntityRepository, AbstractRepository, getCustomRepository, getRepository } from "typeorm";
+import { EntityRepository, AbstractRepository, getCustomRepository, getRepository, MoreThan, MoreThanOrEqual } from "typeorm";
 import { ProjectsPermissionsRepository } from "./ProjectPermissionRepo";
 import { Projects } from "../entity/Projects";
 import { Tasks } from "../entity/Tasks";
@@ -273,6 +273,56 @@ export class TasksRepository extends AbstractRepository<Tasks>{
 
 			await this.repository.update({ id: taskId}, { section_index: index });
 			return;
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
+
+	async moveOutSection (taskId: number, sectionId: number, index: number){
+		try {
+			const sectionRepo = getRepository(Sections);
+
+			const task = await this.repository.findOne({
+				join:{
+					alias: 't',
+					leftJoinAndSelect:{
+						section: 't.section_id'
+					}
+				},
+				where: { id: taskId }
+			});
+			const curSectionId = task.section_id.id;
+			
+			const isExist = await sectionRepo.find({id: sectionId});
+			if(isExist.length === 0) throw new Error('존재하지 않는 섹션');
+
+			const toSection = await sectionRepo.findOne({id: sectionId});
+			const fromSection = await sectionRepo.findOne({id: curSectionId});
+
+			const toSectionTasks = await this.repository.find({
+				where: {
+					section_id: toSection,
+					section_index: MoreThanOrEqual(index)
+				}
+			});
+
+			const fromSectionTasks = await this.repository.find({
+				where: {
+					section_id: fromSection,
+					section_index: MoreThan(task.section_index)
+				}
+			});
+
+			for(let i = 0; i < toSectionTasks.length; i++){
+				await this.repository.update({id: toSectionTasks[i].id}, {section_index: toSectionTasks[i].section_index + 1})
+			}
+
+			for(let i = 0; i < fromSectionTasks.length; i++){
+				await this.repository.update({id: fromSectionTasks[i].id}, {section_index: fromSectionTasks[i].section_index - 1})
+			}
+
+			return this.repository.update({id: taskId}, {section_id: toSection, section_index: index});
 		} catch (err) {
 			console.log(err);
 			return err;
