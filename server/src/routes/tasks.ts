@@ -9,3 +9,7 @@ tasksRouter.put('/edit', tasksController.editTask);
 
 tasksRouter.put('/addAssignee', tasksController.addAssignee);
 tasksRouter.delete('/delAssignee', tasksController.delAssignee);
+
+tasksRouter.post('/comment', tasksController.addComment);
+tasksRouter.put('/comment', tasksController.editCommnet);
+tasksRouter.delete('/comment', tasksController.delComment);

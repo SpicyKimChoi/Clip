@@ -3,6 +3,9 @@ import { readOne } from "./readOne";
 import { editTask } from "./editTask";
 import { addAssignee } from "./addAssignee";
 import { delAssignee } from "./delAssignee";
+import { addComment } from "./addComment";
+import { editCommnet } from "./editCommnet";
+import { delComment } from "./delComment";
 
 export const tasksController = {
 	createTask,
@@ -10,4 +13,7 @@ export const tasksController = {
 	editTask,
 	addAssignee,
 	delAssignee,
+	addComment,
+	editCommnet,
+	delComment
 }

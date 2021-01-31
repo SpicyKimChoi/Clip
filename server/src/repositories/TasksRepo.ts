@@ -148,6 +148,7 @@ export class TasksRepository extends AbstractRepository<Tasks>{
 				.leftJoinAndSelect('lab.label_id','labe')
 				.leftJoinAndSelect('a.user_id', 'au')
 				.leftJoinAndSelect('l.user_id', 'lu')
+				.leftJoinAndSelect('c.user_id', 'cu')
 				.where('t.id = :taskId', {taskId})
 				.getOne()
 
