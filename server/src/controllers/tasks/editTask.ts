@@ -5,10 +5,10 @@ import { getCustomRepository } from "typeorm";
 import * as jwt from "jsonwebtoken";
 import { TasksRepository } from "../../repositories/TasksRepo";
 
-export const readOne = async (req:Request, res:Response) => {
+export const editTask = async (req:Request, res:Response) => {
 	try {
 		if(!req.cookies) throw errorTypes.LOGIN_IS_REQUIRED;
-		const { taskId } = req.query;
+		const { taskId, title, description, start_date, due_date } = req.body;
 
 		const token = req.cookies.token;
 		const uuid = await new Promise<string> ((resolve, reject) => {
@@ -19,7 +19,7 @@ export const readOne = async (req:Request, res:Response) => {
 		});
 
 		const taskRepo = getCustomRepository(TasksRepository);
-		const data = await taskRepo.readOne(Number(taskId));
+		const data = await taskRepo.editTask(taskId, title, description, start_date, due_date);
 		res.status(200).json(data);
 	} catch (err) {
 		if(!!err.statusCode) res.status(err.statusCode).json(err.message);

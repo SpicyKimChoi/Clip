@@ -110,23 +110,8 @@ export class TasksRepository extends AbstractRepository<Tasks>{
 		}
 	}
 
-	async readOne(taskId: string){
+	async readOne(taskId: number){
 		try {
-			// const task = await this.repository.find({
-			// 	join:{
-			// 		alias: 'l',
-			// 		leftJoinAndSelect:{
-			// 			section: "l.section_id",
-			// 			labels: "l.label",
-			// 			assignees: "l.assignee",
-			// 			likes: "l.like",
-			// 			comments: "l.comment"
-			// 		}
-			// 	},
-			// 	where:{
-			// 		id: taskId
-			// 	}
-			// });
 
 			const task = await this.repository
 				.createQueryBuilder('t')
@@ -142,6 +127,24 @@ export class TasksRepository extends AbstractRepository<Tasks>{
 				.getOne()
 
 			return task;
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
+
+	async editTask(taskId: number, title: string, description: string, start_date: Date, due_date: Date  ){
+		try {
+			const task = await this.repository.findOne({id: taskId});
+			title = title || task.title;
+			description = description || task.description;
+			start_date = start_date || task.start_date;
+			due_date = due_date || task.due_date;
+
+			await this.repository.update({id: taskId}, {title, description, start_date, due_date});
+
+			return await this.readOne(taskId);
+
 		} catch (err) {
 			console.log(err);
 			return err;
