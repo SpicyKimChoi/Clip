@@ -225,13 +225,22 @@ export class TasksRepository extends AbstractRepository<Tasks>{
 	}
 
 
-	async moveInSect(userUuid: string, sectionId: number, taskId: number, index: number) {
+	async moveInSect(taskId: number, index: number) {
 		try {
 
 			const sectionRepo = getRepository(Sections);
 
-			const section = await sectionRepo.findOne({ id: sectionId });
-			const task = await this.repository.findOne({ id: taskId });
+			const task = await this.repository.findOne({
+				join:{
+					alias: 't',
+					leftJoinAndSelect:{
+						section: 't.section_id'
+					}
+				},
+				where: { id: taskId }
+			});
+			const sectionId = task.section_id.id;
+			// const section = await sectionRepo.findOne({ id: sectionId });
 
 			//8 -> 2, (2~7) +=1
 			if (task.section_index > index) {
@@ -262,9 +271,8 @@ export class TasksRepository extends AbstractRepository<Tasks>{
 				}
 			}
 
-			await this.repository.update({ id: sectionId }, { section_index: index });
-
-			
+			await this.repository.update({ id: taskId}, { section_index: index });
+			return;
 		} catch (err) {
 			console.log(err);
 			return err;

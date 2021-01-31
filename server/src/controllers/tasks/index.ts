@@ -11,6 +11,7 @@ import { delLabel } from "./delLabel"
 import { changeMark } from "./changeMarkCom";
 import { like } from "./like";
 import { unlike } from "./unlike";
+import { moveInSecion } from "./moveInSeciton";
 export const tasksController = {
 	createTask,
 	readOne,
@@ -25,4 +26,5 @@ export const tasksController = {
 	changeMark,
 	like,
 	unlike,
+	moveInSecion,
 }

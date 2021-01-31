@@ -21,3 +21,5 @@ tasksRouter.delete('/comment', tasksController.delComment);
 
 tasksRouter.put('/like', tasksController.like);
 tasksRouter.delete('/like', tasksController.unlike);
+
+tasksRouter.put('/movein', tasksController.moveInSecion);
