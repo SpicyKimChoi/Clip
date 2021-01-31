@@ -24,3 +24,5 @@ tasksRouter.delete('/like', tasksController.unlike);
 
 tasksRouter.put('/movein', tasksController.moveInSecion);
 tasksRouter.put('/moveout', tasksController.moveOutSecion);
+
+tasksRouter.delete('/del', tasksController.delTask);

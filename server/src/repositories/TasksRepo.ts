@@ -329,5 +329,35 @@ export class TasksRepository extends AbstractRepository<Tasks>{
 		}
 	}
 
+	async delTask(taskId: number){
+		try {
+			const task = await this.repository.findOne({
+				join:{
+					alias: 't',
+					leftJoinAndSelect:{
+						section: 't.section_id'
+					}
+				},
+				where: { id: taskId }
+			});
+			const sectionId = task.section_id.id;
+			const curIdx = task.section_index;
 
+			const tasks = await this.repository.find({
+				where: {
+					section_id: sectionId,
+					section_index: MoreThan(curIdx)
+				}
+			});
+
+			for(let i = 0; i < tasks.length; i++){
+				await this.repository.update({id: tasks[i].id}, {section_index: tasks[i].section_index - 1})
+			}
+
+			return this.repository.delete({id: taskId});
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
 }

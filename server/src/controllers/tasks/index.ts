@@ -13,6 +13,7 @@ import { like } from "./like";
 import { unlike } from "./unlike";
 import { moveInSecion } from "./moveInSeciton";
 import { moveOutSecion } from "./moveOutSection";
+import { delTask } from "./delTask";
 export const tasksController = {
 	createTask,
 	readOne,
@@ -29,4 +30,5 @@ export const tasksController = {
 	unlike,
 	moveInSecion,
 	moveOutSecion,
+	delTask,
 }
