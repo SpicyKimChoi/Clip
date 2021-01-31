@@ -4,10 +4,10 @@ import { getCustomRepository } from "typeorm";
 import { SectionsRepository } from "../../repositories/SectionRepo"
 import * as jwt from "jsonwebtoken";
 
-export const createTask = async (req:Request, res:Response) => {
+export const getSec = async (req:Request, res:Response) => {
 	try {
 		if(!req.cookies) throw errorTypes.LOGIN_IS_REQUIRED;
-		const { projectId, sectionId, index } = req.body;
+		const { projectId } = req.query;
 
 		const token = req.cookies.token;
 		const uuid = await new Promise<string> ((resolve, reject) => {
@@ -18,7 +18,7 @@ export const createTask = async (req:Request, res:Response) => {
 		});
 
 		const sectionRepo = getCustomRepository(SectionsRepository);
-		const data = await sectionRepo.moveSect(uuid, projectId, sectionId, index);
+		const data = await sectionRepo.getSect(uuid, Number(projectId));
 		res.status(201).json(data);
 	} catch (err) {
 		if(!!err.statusCode) res.status(err.statusCode).json(err.message);
