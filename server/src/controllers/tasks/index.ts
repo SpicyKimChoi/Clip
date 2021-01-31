@@ -6,7 +6,8 @@ import { delAssignee } from "./delAssignee";
 import { addComment } from "./addComment";
 import { editCommnet } from "./editCommnet";
 import { delComment } from "./delComment";
-
+import { addLabel } from "./addLabel";
+import { delLabel } from "./delLabel"
 export const tasksController = {
 	createTask,
 	readOne,
@@ -15,5 +16,7 @@ export const tasksController = {
 	delAssignee,
 	addComment,
 	editCommnet,
-	delComment
+	delComment,
+	addLabel,
+	delLabel,
 }

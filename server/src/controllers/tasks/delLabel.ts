@@ -5,7 +5,7 @@ import { getCustomRepository } from "typeorm";
 import * as jwt from "jsonwebtoken";
 import { TasksRepository } from "../../repositories/TasksRepo";
 
-export const delAssignee = async (req:Request, res:Response) => {
+export const delLabel = async (req:Request, res:Response) => {
 	try {
 		if(!req.cookies) throw errorTypes.LOGIN_IS_REQUIRED;
 		const { taskId, labelId } = req.body;
@@ -19,7 +19,7 @@ export const delAssignee = async (req:Request, res:Response) => {
 		});
 
 		const taskRepo = getCustomRepository(TasksRepository);
-		await taskRepo.delAssignee(taskId, labelId);
+		await taskRepo.delLabel(taskId, labelId);
 		const data = await taskRepo.readOne(taskId);
 		res.status(200).json(data);
 	} catch (err) {

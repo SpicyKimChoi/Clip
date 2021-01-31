@@ -35,7 +35,7 @@ export class TasksRepository extends AbstractRepository<Tasks>{
 			return err;
 		}
 	}
-	async addLable(taskId: number, labelId: number){
+	async addLabel(taskId: number, labelId: number){
 		try {
 			const taskLabelRepo = getRepository(TaskLabel);
 			const taskLabel = new TaskLabel();
@@ -51,6 +51,24 @@ export class TasksRepository extends AbstractRepository<Tasks>{
 			taskLabel.task_id = task;
 
 			return taskLabelRepo.save(taskLabel);
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
+
+	async delLabel(taskId: number, labelId: number){
+		try {
+			const taskLabelRepo = getRepository(TaskLabel);
+
+			const labelRepo = getRepository(Labels);
+			const label = await labelRepo.findOne({id: labelId});
+			const task = await this.repository.findOne({id: taskId});
+			
+			const isExist = await taskLabelRepo.find({label_id: label, task_id:task});
+			if(isExist.length === 0) throw new Error ('Does not Exists');
+			
+			return taskLabelRepo.delete({task_id: task, label_id: label});
 		} catch (err) {
 			console.log(err);
 			return err;
@@ -120,7 +138,7 @@ export class TasksRepository extends AbstractRepository<Tasks>{
 
 			//라벨 추가
 			for(let i = 0; i < labelIds.length; i++){
-				await this.addLable(curTask.id, labelIds[i]);
+				await this.addLabel(curTask.id, labelIds[i]);
 			}
 			
 			//어사이니추가
