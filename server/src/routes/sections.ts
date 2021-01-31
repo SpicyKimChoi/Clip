@@ -7,3 +7,4 @@ sectionsRouter.post('/create', sectionController.createSec);
 sectionsRouter.put('/edit', sectionController.editSec);
 sectionsRouter.delete('/del', sectionController.delSec);
 sectionsRouter.put('/move', sectionController.moveSec);
+sectionsRouter.get('/read', sectionController.getSec);
