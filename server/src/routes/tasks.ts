@@ -18,3 +18,6 @@ tasksRouter.delete('/delLabel', tasksController.delLabel);
 tasksRouter.post('/comment', tasksController.addComment);
 tasksRouter.put('/comment', tasksController.editCommnet);
 tasksRouter.delete('/comment', tasksController.delComment);
+
+tasksRouter.put('/like', tasksController.like);
+tasksRouter.delete('/like', tasksController.unlike);

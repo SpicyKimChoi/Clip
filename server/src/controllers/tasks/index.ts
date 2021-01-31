@@ -9,6 +9,8 @@ import { delComment } from "./delComment";
 import { addLabel } from "./addLabel";
 import { delLabel } from "./delLabel"
 import { changeMark } from "./changeMarkCom";
+import { like } from "./like";
+import { unlike } from "./unlike";
 export const tasksController = {
 	createTask,
 	readOne,
@@ -21,4 +23,6 @@ export const tasksController = {
 	addLabel,
 	delLabel,
 	changeMark,
+	like,
+	unlike,
 }
