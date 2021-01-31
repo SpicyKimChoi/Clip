@@ -10,6 +10,8 @@ import { usersRouter } from "./routes/users";
 import { clipsRouter } from "./routes/clips";
 import { projectsRouter } from "./routes/projects";
 import { sectionsRouter } from "./routes/sections"
+import { tasksRouter } from "./routes/tasks";
+import { labelsRouter } from "./routes/labels";
 
 //Connect TypeORM mysql
 createConnection()
@@ -38,7 +40,9 @@ app.get('/', (_, res) => {
 app.use('/users', usersRouter);
 app.use('/projects', projectsRouter);
 app.use('/clips', clipsRouter);
-app.use('/sections', sectionsRouter)
+app.use('/sections', sectionsRouter);
+app.use('/tasks', tasksRouter);
+app.use('/labels', labelsRouter);
 
 
 app.listen(app.get('port'), () => {

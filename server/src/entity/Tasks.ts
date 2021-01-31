@@ -31,10 +31,10 @@ export class Tasks extends Base{
 	})
 	is_completed: boolean;
 
-	@Column()
+	@Column({nullable: true})
 	start_date: Date;
 
-	@Column()
+	@Column({nullable: true})
 	due_date: Date;
 
 	@ManyToOne(() => Sections, (section) => section.task, {
