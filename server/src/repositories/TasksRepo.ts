@@ -206,9 +206,24 @@ export class TasksRepository extends AbstractRepository<Tasks>{
 	}
 
 
-	async getAllTasksByAssignee(projectId: number, userUuid: string){
+	async getAllTasksByAssignee(projectId: number, userUuid: string, is_completed:boolean){
 		try {
-			
+			const tasks = await this.repository
+				.createQueryBuilder('t')
+				.leftJoinAndSelect('t.label', 'lab')
+				.leftJoinAndSelect('t.section_id', 's')
+				.leftJoinAndSelect('t.assignee', 'a')
+				.leftJoinAndSelect('t.like', 'l')
+				.leftJoinAndSelect('lab.label_id', 'labe')
+				.leftJoinAndSelect('a.user_id', 'au')
+				.leftJoinAndSelect('l.user_id', 'lu')
+				.leftJoinAndSelect('s.project_id', 'p')
+				.where('au.uuid = :userUuid', { userUuid })
+				.andWhere('p.id = :projectId', { projectId })
+				.andWhere('t.is_completed = :is_completed', { is_completed })
+				.getMany()
+
+			return tasks
 		} catch (err) {
 			console.log(err);
 			return err;

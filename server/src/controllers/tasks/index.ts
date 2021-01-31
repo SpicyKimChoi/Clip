@@ -14,6 +14,7 @@ import { unlike } from "./unlike";
 import { moveInSecion } from "./moveInSeciton";
 import { moveOutSecion } from "./moveOutSection";
 import { delTask } from "./delTask";
+import { getTasksByAssignee } from "./getTasksByAssignee";
 export const tasksController = {
 	createTask,
 	readOne,
@@ -31,4 +32,5 @@ export const tasksController = {
 	moveInSecion,
 	moveOutSecion,
 	delTask,
+	getTasksByAssignee,
 }
