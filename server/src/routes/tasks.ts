@@ -7,6 +7,8 @@ tasksRouter.post('/create', tasksController.createTask);
 tasksRouter.get('/readOne', tasksController.readOne);
 tasksRouter.put('/edit', tasksController.editTask);
 
+tasksRouter.put('/changeMark', tasksController.changeMark);
+
 tasksRouter.put('/addAssignee', tasksController.addAssignee);
 tasksRouter.delete('/delAssignee', tasksController.delAssignee);
 

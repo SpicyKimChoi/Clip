@@ -195,5 +195,14 @@ export class TasksRepository extends AbstractRepository<Tasks>{
 		}
 	}
 
+	async changeMarkComplete(taskId: number){
+		try {
+			const task = await this.repository.findOne({id: taskId});
+			return this.repository.update({id: taskId}, {is_completed: !task.is_completed});
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
 
 }

@@ -8,6 +8,7 @@ import { editCommnet } from "./editCommnet";
 import { delComment } from "./delComment";
 import { addLabel } from "./addLabel";
 import { delLabel } from "./delLabel"
+import { changeMark } from "./changeMarkCom";
 export const tasksController = {
 	createTask,
 	readOne,
@@ -19,4 +20,5 @@ export const tasksController = {
 	delComment,
 	addLabel,
 	delLabel,
+	changeMark,
 }
