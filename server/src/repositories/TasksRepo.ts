@@ -44,6 +44,9 @@ export class TasksRepository extends AbstractRepository<Tasks>{
 			const label = await labelRepo.findOne({id: labelId});
 			const task = await this.repository.findOne({id: taskId});
 			
+			const isExist = await taskLabelRepo.find({label_id: label, task_id:task});
+			if(isExist.length !== 0) throw new Error ('Already Exists');
+			
 			taskLabel.label_id = label;
 			taskLabel.task_id = task;
 
@@ -63,10 +66,32 @@ export class TasksRepository extends AbstractRepository<Tasks>{
 			const user = await userRepo.findOne({email});
 			const task = await this.repository.findOne({id: taskId});
 
+			const isExist = await assigneeRepo.find({user_id: user,task_id:task});
+			if(isExist.length !== 0) throw new Error ('Already Exists');
+
 			assignee.user_id = user;
 			assignee.task_id = task;
 
 			return assigneeRepo.save(assignee);
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
+
+	async delAssignee(taskId: number, email: string){
+		try {
+			const assigneeRepo = getRepository(Assignee);
+
+			const userRepo = getRepository(Users);
+			const user = await userRepo.findOne({email});
+			const task = await this.repository.findOne({id: taskId});
+
+			const isExist = await assigneeRepo.find({user_id: user,task_id:task});
+			if(isExist.length === 0) throw new Error ('Does not Exists');
+
+			return assigneeRepo.delete({user_id: user, task_id: task});
+
 		} catch (err) {
 			console.log(err);
 			return err;
@@ -150,4 +175,6 @@ export class TasksRepository extends AbstractRepository<Tasks>{
 			return err;
 		}
 	}
+
+
 }
