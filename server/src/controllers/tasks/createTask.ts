@@ -1,13 +1,14 @@
 import { Request, Response } from "express";
 import { errorTypes } from "../utils/errors/privateClipsErrors";
 import { getCustomRepository } from "typeorm";
-import { SectionsRepository } from "../../repositories/SectionRepo"
+
 import * as jwt from "jsonwebtoken";
+import { TasksRepository } from "../../repositories/TasksRepo";
 
 export const createTask = async (req:Request, res:Response) => {
 	try {
 		if(!req.cookies) throw errorTypes.LOGIN_IS_REQUIRED;
-		const { projectId, sectionId, index } = req.body;
+		const { projectId, sectionId, labelIds, tasksParams } = req.body;
 
 		const token = req.cookies.token;
 		const uuid = await new Promise<string> ((resolve, reject) => {
@@ -17,11 +18,18 @@ export const createTask = async (req:Request, res:Response) => {
 			});
 		});
 
-		const sectionRepo = getCustomRepository(SectionsRepository);
-		const data = await sectionRepo.moveSect(uuid, projectId, sectionId, index);
+		const taskRepo = getCustomRepository(TasksRepository);
+		const data = await taskRepo.createTask(uuid, projectId, sectionId, labelIds, tasksParams);
 		res.status(201).json(data);
 	} catch (err) {
 		if(!!err.statusCode) res.status(err.statusCode).json(err.message);
 		else res.status(errorTypes.INTERNAL_SERVER_ERROR.statusCode).json(errorTypes.INTERNAL_SERVER_ERROR.message);
 	}
 }
+// interface tasksParams{
+// 	title: string;
+// 	description: string | null;
+// 	start_date: Date | null;
+// 	due_date: Date | null;
+// 	assignee: string[];
+// }

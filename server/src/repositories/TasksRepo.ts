@@ -54,13 +54,13 @@ export class TasksRepository extends AbstractRepository<Tasks>{
 		}
 	}
 
-	async addAssignee(taskId: number, userUuid: string){
+	async addAssignee(taskId: number, email: string){
 		try {
 			const assigneeRepo = getRepository(Assignee);
 			const assignee = new Assignee();
 
 			const userRepo = getRepository(Users);
-			const user = await userRepo.findOne({uuid: userUuid});
+			const user = await userRepo.findOne({email});
 			const task = await this.repository.findOne({id: taskId});
 
 			assignee.user_id = user;
