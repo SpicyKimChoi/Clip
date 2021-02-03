@@ -69,6 +69,7 @@ const ClipAddButton = () => {
     <>
       <button onClick={openModal}>+</button>
       <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles}>
+        <div>Add modal</div>
         <button
           onClick={() => {
             setSwitchClip(!switchClip);

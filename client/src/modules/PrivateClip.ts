@@ -8,7 +8,10 @@ export type Input = {
   url: string;
   discription: string;
 };
-type ClipAction = ReturnType<typeof addClip> | ReturnType<typeof deleteClip>;
+type ClipAction =
+  | ReturnType<typeof addClip>
+  | ReturnType<typeof deleteClip>
+  | ReturnType<typeof editClip>;
 type ClipState = Input[];
 
 export const addClip = (input: Input) => ({
@@ -19,9 +22,13 @@ export const deleteClip = (id: number) => ({
   type: PRIVATE_DELETE,
   payload: id,
 });
+export const editClip = (input: Input) => ({
+  type: PRIVATE_EDIT,
+  payload: input,
+});
 
 const initialStae: ClipState = [];
-const privateClip = (state = initialStae, action: ClipAction) => {
+const privateClip = (state: ClipState = initialStae, action: ClipAction) => {
   switch (action.type) {
     case PRIVATE_ADD:
       let nextId = 0;
@@ -39,6 +46,15 @@ const privateClip = (state = initialStae, action: ClipAction) => {
       });
     case PRIVATE_DELETE:
       return state.filter((clip) => clip.id !== action.payload);
+    case PRIVATE_EDIT:
+      return state.map((clip) => {
+        if (clip.id === action.payload.id) {
+          clip.title = action.payload.title;
+          clip.url = action.payload.url;
+          clip.discription = action.payload.discription;
+        }
+        return clip;
+      });
 
     default:
       return state;
