@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import useModal from "../../hooks/useModal";
 import Modal from "react-modal";
 import styled from "styled-components";
+import useInput from "../../hooks/useInput";
+import usePrivateClip from "../../hooks/usePrivateClip";
+
 Modal.setAppElement("#root");
-type Clip = {
+
+interface Input {
+  id: number;
   title: string;
   url: string;
   discription: string;
-};
+}
+
 const customStyles = {
   content: {
     top: "50%",
@@ -19,88 +25,89 @@ const customStyles = {
   },
 };
 const ClipAddButton = () => {
-  const data: Clip[] = [];
   const { isOpen, onOpen, onClose } = useModal();
-  const [inputs, setInputs] = useState({
-    title: "",
-    url: "",
-    discription: "",
-  });
-  const [clipData, setClipData] = useState<Clip[]>([]);
-  const { title, url, discription } = inputs;
+  const { privateClipArr, addPrivateClip } = usePrivateClip();
+  const {
+    titleState,
+    urlState,
+    discriptionState,
+    makeTitle,
+    makeUrl,
+    makeDiscription,
+  } = useInput();
+  const [switchClip, setSwitchClip] = useState(false);
+
   const onClick = () => {
-    console.log("클립 생성!", inputs);
-    let temp = clipData.slice();
-    temp.push(inputs);
-    setClipData(temp);
-    console.log(data, "data check");
+    const obj = {
+      id: 1,
+      title: titleState,
+      url: urlState,
+      discription: discriptionState,
+    };
+    addPrivateClip(obj);
     onClose();
-    onReset();
-    return data;
   };
+  const openModal = () => {
+    onOpen();
+    makeTitle("");
+    makeUrl("");
+    makeDiscription("");
+  };
+
   const onChange = (e: any) => {
     const { name, value } = e.target;
-    const nextInputs = {
-      ...inputs,
-      [name]: value,
-    };
-    console.log(nextInputs);
-    setInputs(nextInputs);
+    if (name === "title") {
+      makeTitle(value);
+    } else if (name === "url") {
+      makeUrl(value);
+    } else if (name === "discription") {
+      makeDiscription(value);
+    }
   };
-  const onReset = () => {
-    const resetInputs = {
-      title: "",
-      url: "",
-      discription: "",
-    };
-    setInputs(resetInputs);
-  };
+
   return (
     <>
-      <button onClick={onOpen}>+</button>
-      {clipData.length === 0 ? (
-        <div></div>
-      ) : (
-        clipData.map((clip: Clip, idx: number) => {
-          console.log(clip, "clip");
-          return (
-            <Clip key={idx}>
-              <div>{clip.title}</div>
-              <a href={clip.url} target="_blank">
-                링크
-              </a>
-              <div>{clip.discription}</div>
-              <button>삭제</button>
-              <button>수정</button>
-            </Clip>
-          );
-        })
-      )}
+      <button onClick={openModal}>+</button>
       <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles}>
-        <div>
-          <input
-            name="title"
-            placeholder="Title"
-            onChange={onChange}
-            value={title}
-          ></input>
-        </div>
-        <div>
-          <input
-            name="url"
-            placeholder="Url"
-            onChange={onChange}
-            value={url}
-          ></input>
-        </div>
-        <div>
-          <input
-            placeholder="Discription"
-            name="discription"
-            onChange={onChange}
-            value={discription}
-          ></input>
-        </div>
+        <button
+          onClick={() => {
+            setSwitchClip(!switchClip);
+          }}
+        >
+          스위치
+        </button>
+        {switchClip ? (
+          <div>
+            <div>
+              <input
+                placeholder="Memo"
+                name="discription"
+                onChange={onChange}
+              ></input>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div>
+              <input
+                name="title"
+                placeholder="Title"
+                onChange={onChange}
+              ></input>
+            </div>
+            <div>
+              <input name="url" placeholder="Url" onChange={onChange}></input>
+            </div>
+            <div>
+              <input
+                placeholder="Discription"
+                name="discription"
+                onChange={onChange}
+              ></input>
+            </div>
+          </div>
+        )}
+
         <button onClick={onClose}>취소</button>
         <button onClick={onClick}>생성</button>
       </Modal>
