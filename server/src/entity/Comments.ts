@@ -15,7 +15,7 @@ export class Comments extends Base {
 	@Column({type: "text"})
 	content: string;
 
-	@ManyToOne(() => Tasks, (task) => task.like, {
+	@ManyToOne(() => Tasks, (task) => task.comment, {
     onDelete: "CASCADE",
 	})
 	@JoinColumn({name: "task_id"})

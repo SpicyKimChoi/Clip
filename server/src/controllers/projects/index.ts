@@ -6,6 +6,7 @@ import { invite } from "./invite";
 import { getUsers } from "./getUsers";
 import { kickTeam } from "./kickTeam";
 import { editPermisison } from "./editPermission";
+import { getTasksByProject } from "./getTasksByProject";
 
 export const projectsController = {
 	create,
@@ -16,4 +17,5 @@ export const projectsController = {
 	getUsers,
 	kickTeam,
 	editPermisison,
+	getTasksByProject,
 }

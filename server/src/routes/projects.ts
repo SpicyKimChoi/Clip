@@ -11,3 +11,4 @@ projectsRouter.post('/invite', projectsController.invite);
 projectsRouter.get('/getUsers', projectsController.getUsers);
 projectsRouter.delete('/kick', projectsController.kickTeam);
 projectsRouter.put('/editpp', projectsController.editPermisison);
+projectsRouter.get('/allTasks', projectsController.getTasksByProject);

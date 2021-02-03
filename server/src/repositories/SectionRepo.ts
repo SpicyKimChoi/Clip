@@ -151,4 +151,22 @@ export class SectionsRepository extends AbstractRepository<Sections>{
 			return err;
 		}
 	}
+
+	async getSect (userUuid: string, projectId: number){
+		try {
+			const ppRepo = getCustomRepository(ProjectsPermissionsRepository);
+			const isin = await ppRepo.isUserInsideProj(userUuid, projectId);
+			console.log(isin);
+			if (!isin) throw new Error('해당 프로젝트에 유저가 없음');
+
+			const projRepo = getRepository(Projects);
+
+			const proj = await projRepo.findOne({ id: projectId });
+
+			return this.repository.find({project_id:proj});
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
 }

@@ -82,4 +82,28 @@ export class ProjectsRepository extends AbstractRepository<Projects> {
 		}
 	}
 
+	async getAllTasksByProjectId(projectId: number){
+		try {
+			const projRepo = getRepository(Projects);
+
+			const project = await projRepo
+				.createQueryBuilder('p')
+				.leftJoinAndSelect('p.privateClips', 'pric')
+				.leftJoinAndSelect('p.publicClips', 'pubc')
+				.leftJoinAndSelect('p.projectPermissions', 'pp')
+				.leftJoinAndSelect('p.section', 'sec')
+				.leftJoinAndSelect('pp.user_id', 'ppu')
+				.leftJoinAndSelect('sec.task', 'ts')
+				.leftJoinAndSelect('ts.assignee', 'a')
+				.leftJoinAndSelect('a.user_id', 'au')
+				.where('p.id = :projectId', {projectId})
+				.getOne()
+
+			return project;
+			
+		} catch (err) {
+			console.log(err);
+			return err;
+		}
+	}
 }
