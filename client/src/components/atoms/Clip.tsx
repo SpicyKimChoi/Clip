@@ -1,18 +1,17 @@
 import React, { useState } from "react";
-import useModal from "../../hooks/useModal";
-import Modal from "react-modal";
-import styled from "styled-components";
 import useInput from "../../hooks/useInput";
+import useModal from "../../hooks/useModal";
 import usePrivateClip from "../../hooks/usePrivateClip";
+import Modal from "react-modal";
 
 Modal.setAppElement("#root");
 
-interface Input {
+type Clipinput = {
   id: number;
   title: string;
   url: string;
   discription: string;
-}
+};
 
 const customStyles = {
   content: {
@@ -24,36 +23,35 @@ const customStyles = {
     transform: "translate(-50%, -50%)",
   },
 };
-const ClipAddButton = () => {
-  const { isOpen, onOpen, onClose } = useModal();
-  const { privateClipArr, addPrivateClip } = usePrivateClip();
+
+const Clip = ({ id, title, url, discription }: Clipinput) => {
+  const { deletePrivateClip, editPrivateClip } = usePrivateClip();
   const {
     titleState,
     urlState,
     discriptionState,
+    makeDiscription,
     makeTitle,
     makeUrl,
-    makeDiscription,
   } = useInput();
+  const [editModal, setEditModal] = useState(false);
   const [switchClip, setSwitchClip] = useState(false);
-
-  const onClick = () => {
+  const editClip = () => {
     const obj = {
-      id: 1,
+      id: id,
       title: titleState,
       url: urlState,
       discription: discriptionState,
     };
-    addPrivateClip(obj);
-    onClose();
+    editPrivateClip(obj);
+    setEditModal(false);
   };
   const openModal = () => {
-    onOpen();
+    setEditModal(true);
     makeTitle("");
     makeUrl("");
     makeDiscription("");
   };
-
   const onChange = (e: any) => {
     const { name, value } = e.target;
     if (name === "title") {
@@ -64,12 +62,19 @@ const ClipAddButton = () => {
       makeDiscription(value);
     }
   };
-
   return (
-    <>
-      <button onClick={openModal}>+</button>
-      <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles}>
-        <div>Add modal</div>
+    <div>
+      <div>{title}</div>
+      <div>{url}</div>
+      <div>{discription}</div>
+      <button onClick={openModal}>edit</button>
+      <button onClick={() => deletePrivateClip(id)}>delete</button>
+      <Modal
+        isOpen={editModal}
+        onRequestClose={() => setEditModal(false)}
+        style={customStyles}
+      >
+        <div>Edit modal</div>
         <button
           onClick={() => {
             setSwitchClip(!switchClip);
@@ -109,14 +114,17 @@ const ClipAddButton = () => {
           </div>
         )}
 
-        <button onClick={onClose}>취소</button>
-        <button onClick={onClick}>생성</button>
+        <button
+          onClick={() => {
+            setEditModal(false);
+          }}
+        >
+          취소
+        </button>
+        <button onClick={editClip}>생성</button>
       </Modal>
-    </>
+    </div>
   );
 };
-const Clip = styled.div`
-  border: 1px solid;
-  border-color: green;
-`;
-export default ClipAddButton;
+
+export default Clip;
