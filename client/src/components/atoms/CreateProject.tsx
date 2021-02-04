@@ -11,11 +11,13 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
-    useDisclosure
+    useDisclosure,
+    useToast
 } from "@chakra-ui/react";
 import axios from 'axios';
 
 const CreateProject = () => {
+    const toast = useToast()
     const [projectName, setProjectName] = useState('')
     const [description, setDescription] = useState('')
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -44,10 +46,17 @@ const CreateProject = () => {
                 console.log(err)
             })
         onClose()
+        toast({
+            title: "Project created.",
+            description: "We've created your project for you.",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+        })
     }
     return (
         <>
-            <Button onClick={onOpen}>Open Modal</Button>
+            <Button onClick={onOpen}>새 프로젝트 생성</Button>
             <Modal
                 initialFocusRef={initialRef}
                 finalFocusRef={finalRef}
