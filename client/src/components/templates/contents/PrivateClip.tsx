@@ -8,7 +8,7 @@ import { Input } from "../../../modules/PrivateClip";
 const PrivateClip = () => {
   const { privateClipArr } = usePrivateClip();
   return (
-    <PrivateClipGrid style={{ overflow: "scroll" }}>
+    <PrivateClipGrid>
       <ClipAddButton />
       {privateClipArr.map((clip: Input, idx: number) => {
         return (
@@ -26,8 +26,6 @@ const PrivateClip = () => {
 };
 
 const PrivateClipGrid = styled.section`
-  grid-column: 1;
-  grid-row: 1;
   border: 1px solid;
   border-color: red;
 `;

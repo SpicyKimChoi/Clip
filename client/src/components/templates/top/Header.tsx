@@ -6,11 +6,11 @@ import ToggleProject from "../../atoms/ToggleProject";
 
 const Header = () => {
     return (
-        <div>
+        <header>
             <LoginGoogle />
             <ToggleProject />
             <CreateProject />
-        </div>
+        </header>
     )
 }
 
