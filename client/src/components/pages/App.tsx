@@ -15,12 +15,13 @@ function App() {
 }
 
 const Page = styled.div`
-  display: grid;
+  display: flex;
+  height: 100vh;
+  -webkit-box-orient: vertical;
+  flex-direction: column;
   border: 5px solid;
-  border-color: black;
-  grid-template-rows: 10vh 90vh;
-  margin: 0px;
-  grid-gap: 10px;
+  border-color: orange;
+  padding-bottom: 10rem;
 `
 export default App;
 

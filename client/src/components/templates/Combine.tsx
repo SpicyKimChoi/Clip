@@ -10,20 +10,22 @@ const Combine = () => {
     <CombineStyle>
       <PrivateClip />
       <PublicClip />
-      <Inbox />
-      <KanbanBoard />
+      <BottomContainer>
+        <Inbox />
+        <KanbanBoard />
+      </BottomContainer>
     </CombineStyle>
   );
 };
 
 const CombineStyle = styled.div`
-  display: grid;
+  height: 90vh;
   border: 5px solid;
-  border-color: black;
-  grid-template-columns: 4fr 6fr;
-  grid-template-rows: 20vh 70vh;
-  margin: 0px;
-  grid-gap: 10px;
+  border-color: aqua;
 `;
+
+const BottomContainer = styled.div`
+  display: flex;
+`
 
 export default Combine;
