@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+
 import {
     Menu,
     MenuButton,
@@ -9,17 +11,26 @@ import {
 import { ChevronDownIcon } from '@chakra-ui/icons'
 
 
+
 const ToggleProject = () => {
     const [select, setSelect] = useState("Your Project")
     const toggle = React.useRef<HTMLButtonElement>(null)
-    const handleProject = (e: any) => {
-        setSelect(e.target.value)
-    }
 
+    const handleProject = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        const { value } = e.target as HTMLButtonElement;
+        setSelect(value)
+    }
+    // const fetchProject = () => {
+    //     axios.get(`test`)
+    //         .then((res) => {
+    //             return res.data
+    //         })
+    // }
     console.log(select)
     return (
         <>
             <Menu>
+                {/* <MenuButton onClick={fetchProject} ref={toggle} as={Button} mr={3} rightIcon={<ChevronDownIcon />}> */}
                 <MenuButton ref={toggle} as={Button} mr={3} rightIcon={<ChevronDownIcon />}>
                     {select}
                 </MenuButton>
