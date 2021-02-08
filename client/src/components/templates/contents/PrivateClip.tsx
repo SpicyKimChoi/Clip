@@ -31,9 +31,7 @@ const PrivateClip = () => {
   const [, drop] = useDrop({ accept: ItemTypes.CLIP });
 
   return (
-
     <PrivateClipGrid ref={drop}>
-
       <ClipAddButton />
       {privateClipArr.map((clip: Input, idx: number) => {
         return (
@@ -55,6 +53,10 @@ const PrivateClip = () => {
 const PrivateClipGrid = styled.section`
   border: 1px solid;
   border-color: red;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
 `;
 
 export default PrivateClip;
