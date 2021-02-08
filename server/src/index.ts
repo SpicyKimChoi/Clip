@@ -4,6 +4,7 @@ import * as express from 'express';
 import * as morgan from 'morgan';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
+import * as cors from 'cors';
 
 //Import Routers
 import { usersRouter } from "./routes/users";
@@ -22,7 +23,24 @@ createConnection()
 
 const app = express();
 
+//cors 
+const options : cors.CorsOptions= {
+	allowedHeaders: [
+    'Origin',
+    'X-Requested-With',
+    'Content-Type',
+    'Accept',
+    'X-Access-Token',
+  ],
+  credentials: true,
+  methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+  origin: '*',
+  preflightContinue: false,
+
+}
+
 //Middlewares
+app.use(cors(options));
 app.set('port', process.env.PORT || 4000);
 app.use(morgan('dev'));
 app.use(bodyParser.json());
