@@ -2,15 +2,24 @@ import React, { useState } from "react";
 import useInput from "../../hooks/useInput";
 import useModal from "../../hooks/useModal";
 import usePrivateClip from "../../hooks/usePrivateClip";
+import { useDrag, useDrop } from "react-dnd";
 import Modal from "react-modal";
+import styled from "styled-components";
 
 Modal.setAppElement("#root");
 
 type Clipinput = {
-  id: number;
+  id: string;
   title: string;
   url: string;
   discription: string;
+  moveClip: (id: string, to: number) => void;
+  findClip: (id: string) => { index: number };
+};
+type Item = {
+  type: string;
+  id: string;
+  originalIndex: string;
 };
 
 const customStyles = {
@@ -24,8 +33,44 @@ const customStyles = {
   },
 };
 
-const Clip = ({ id, title, url, discription }: Clipinput) => {
+const Clip = ({
+  id,
+  title,
+  url,
+  discription,
+  moveClip,
+  findClip,
+}: Clipinput) => {
+  const originalIndex = findClip(id).index;
+  const ItemTypes = { CLIP: "clip" };
   const { deletePrivateClip, editPrivateClip } = usePrivateClip();
+  const [editModal, setEditModal] = useState(false);
+  const [switchClip, setSwitchClip] = useState(false);
+  const [{ isDragging }, drag] = useDrag({
+    item: { type: ItemTypes.CLIP, id, originalIndex },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+    end: (dropResult, monitor) => {
+      const { id: droppedId, originalIndex } = monitor.getItem();
+      const didDrop = monitor.didDrop();
+      if (!didDrop) {
+        moveClip(droppedId, originalIndex);
+      }
+    },
+  });
+  const [, drop] = useDrop({
+    accept: ItemTypes.CLIP,
+    canDrop: () => false,
+    hover({ id: draggedId }: Item) {
+      if (draggedId !== id) {
+        const { index: overIndex } = findClip(id);
+        moveClip(draggedId, overIndex);
+      }
+    },
+  });
+  const opacity = isDragging ? 0 : 1;
+
   const {
     titleState,
     urlState,
@@ -34,11 +79,9 @@ const Clip = ({ id, title, url, discription }: Clipinput) => {
     makeTitle,
     makeUrl,
   } = useInput();
-  const [editModal, setEditModal] = useState(false);
-  const [switchClip, setSwitchClip] = useState(false);
   const editClip = () => {
     const obj = {
-      id: id,
+      id: Number(id),
       title: titleState,
       url: urlState,
       discription: discriptionState,
@@ -63,12 +106,11 @@ const Clip = ({ id, title, url, discription }: Clipinput) => {
     }
   };
   return (
-    <div>
+    <ClipWrapper ref={(node) => drag(drop(node))}>
       <div>{title}</div>
-      <div>{url}</div>
-      <div>{discription}</div>
+
       <button onClick={openModal}>edit</button>
-      <button onClick={() => deletePrivateClip(id)}>delete</button>
+      <button onClick={() => deletePrivateClip(Number(id))}>delete</button>
       <Modal
         isOpen={editModal}
         onRequestClose={() => setEditModal(false)}
@@ -123,8 +165,13 @@ const Clip = ({ id, title, url, discription }: Clipinput) => {
         </button>
         <button onClick={editClip}>생성</button>
       </Modal>
-    </div>
+    </ClipWrapper>
   );
 };
+
+const ClipWrapper = styled.div`
+  border: 1px solid;
+  border-color: aqua;
+`;
 
 export default Clip;

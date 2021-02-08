@@ -1,7 +1,7 @@
 const PRIVATE_ADD = "PrivateClip/PRIVATE_ADD" as const;
 const PRIVATE_EDIT = "PrivateClip/PRIVATE_EDIT" as const;
 const PRIVATE_DELETE = "PrivateClip/PRIVATE_DELETE" as const;
-
+const PRIVATE_CHANGE = "PrivateClip/PRIBATE_CHANGE" as const;
 export type Input = {
   id: number;
   title: string;
@@ -11,7 +11,9 @@ export type Input = {
 type ClipAction =
   | ReturnType<typeof addClip>
   | ReturnType<typeof deleteClip>
-  | ReturnType<typeof editClip>;
+  | ReturnType<typeof editClip>
+  | ReturnType<typeof changeClip>;
+
 type ClipState = Input[];
 
 export const addClip = (input: Input) => ({
@@ -26,8 +28,43 @@ export const editClip = (input: Input) => ({
   type: PRIVATE_EDIT,
   payload: input,
 });
+export const changeClip = (arr: Input[]) => ({
+  type: PRIVATE_CHANGE,
+  payload: arr,
+});
 
-const initialStae: ClipState = [];
+const initialStae: ClipState = [
+  {
+    id: 1,
+    title: "test!",
+    url: "www.test.com",
+    discription: "string",
+  },
+  {
+    id: 2,
+    title: "test2",
+    url: "www.test2.com",
+    discription: "string",
+  },
+  {
+    id: 3,
+    title: "test3",
+    url: "www.test3.com",
+    discription: "string",
+  },
+  {
+    id: 4,
+    title: "test4",
+    url: "www.test4.com",
+    discription: "string",
+  },
+  {
+    id: 5,
+    title: "test5",
+    url: "www.test5.com",
+    discription: "string",
+  },
+];
 const privateClip = (state: ClipState = initialStae, action: ClipAction) => {
   switch (action.type) {
     case PRIVATE_ADD:
@@ -55,7 +92,8 @@ const privateClip = (state: ClipState = initialStae, action: ClipAction) => {
         }
         return clip;
       });
-
+    case PRIVATE_CHANGE:
+      return action.payload;
     default:
       return state;
   }
