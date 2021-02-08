@@ -2,7 +2,13 @@
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../modules/index";
-import { addClip, deleteClip, editClip, Input } from "../modules/PrivateClip";
+import {
+  addClip,
+  deleteClip,
+  editClip,
+  changeClip,
+  Input,
+} from "../modules/PrivateClip";
 
 export default function usePrivateClip() {
   const dispatch = useDispatch();
@@ -17,10 +23,15 @@ export default function usePrivateClip() {
   const editPrivateClip = useCallback((obj: Input) => dispatch(editClip(obj)), [
     dispatch,
   ]);
+  const changePrivateClip = useCallback(
+    (arr: Input[]) => dispatch(changeClip(arr)),
+    [dispatch],
+  );
   return {
     privateClipArr,
     addPrivateClip,
     deletePrivateClip,
     editPrivateClip,
+    changePrivateClip,
   };
 }
