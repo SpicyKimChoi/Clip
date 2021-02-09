@@ -172,6 +172,7 @@ const Clip = ({
 const ClipWrapper = styled.div`
   border: 1px solid;
   border-color: aqua;
+  width: 100px;
 `;
 
 export default Clip;
