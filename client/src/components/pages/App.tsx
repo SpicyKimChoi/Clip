@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import GlobalStlyes from "../GlobalStyle"
+import GlobalStlyes from "../../style/GlobalStyle"
 import Header from "../templates/top/Header"
 import Combine from "../templates/Combine";
 
