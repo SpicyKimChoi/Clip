@@ -1,4 +1,5 @@
 import React from 'react';
+import LoginGoogle from "../atoms/LoginGoogle"
 import {
     Button,
     DrawerBody,
@@ -35,6 +36,7 @@ const Setting = () => {
             >
                 <DrawerOverlay>
                     <DrawerContent>
+                        <LoginGoogle />
                         <DrawerCloseButton />
                         <DrawerHeader>Create your account</DrawerHeader>
                         <DrawerBody>
