@@ -1,4 +1,7 @@
-import React from "react";
+
+import React from 'react';
+import LoginGoogle from "../atoms/LoginGoogle"
+
 import {
   Button,
   DrawerBody,
@@ -18,6 +21,7 @@ import { Drawer } from "@chakra-ui/react";
 const Setting = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef<HTMLButtonElement>(null);
+
 
   return (
     <>
@@ -48,6 +52,7 @@ const Setting = () => {
       </Drawer>
     </>
   );
+
 };
 
 export default Setting;

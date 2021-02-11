@@ -6,4 +6,5 @@ const GlobalStlyes = createGlobalStyle`
         margin: 0
     }
 `
+
 export default GlobalStlyes;
