@@ -109,7 +109,7 @@ const Clip = ({
     <ClipWrapper ref={(node) => drag(drop(node))}>
       <div>{title}</div>
 
-      <button onClick={openModal}>edit</button>
+      <button onClick={() => openModal()}>edit</button>
       <button onClick={() => deletePrivateClip(Number(id))}>delete</button>
       <Modal
         isOpen={editModal}
@@ -163,7 +163,7 @@ const Clip = ({
         >
           취소
         </button>
-        <button onClick={editClip}>생성</button>
+        <button onClick={() => editClip()}>생성</button>
       </Modal>
     </ClipWrapper>
   );
@@ -172,7 +172,6 @@ const Clip = ({
 const ClipWrapper = styled.div`
   border: 1px solid;
   border-color: aqua;
-  width: 100px;
 `;
 
 export default Clip;
