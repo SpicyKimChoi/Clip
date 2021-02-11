@@ -6,7 +6,7 @@ const LogoutButton = () => {
   return (
     <>
       <>{`${isLogin}`}</> {/* 지울 것 */}
-      <button onClick={onLogout}>Logout</button>
+      <button onClick={() => onLogout()}>Logout</button>
     </>
   );
 };

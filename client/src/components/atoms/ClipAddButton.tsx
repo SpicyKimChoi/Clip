@@ -7,13 +7,10 @@ import {
   Input,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
-  useToast,
   Switch,
 } from "@chakra-ui/react";
 import styled from "styled-components";
@@ -82,7 +79,7 @@ const ClipAddButton = () => {
 
   return (
     <PrivateClipWrapper>
-      <button onClick={openModal}>+</button>
+      <button onClick={() => openModal()}>+</button>
       <Modal
         isOpen={isOpen}
         onClose={onClose}
@@ -144,7 +141,7 @@ const ClipAddButton = () => {
             <Button mr={3} colorScheme="facebook" onClick={onClick}>
               생성
             </Button>
-            <Button onClick={onClose}>취소</Button>
+            <Button onClick={() => onClose()}>취소</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -153,6 +150,7 @@ const ClipAddButton = () => {
 };
 const PrivateClipWrapper = styled.div`
   border: 1px solid;
-  border-color: green;
+  border-color: red;
+  width: 100px;
 `;
 export default ClipAddButton;
