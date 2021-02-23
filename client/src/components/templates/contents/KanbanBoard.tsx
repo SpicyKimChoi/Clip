@@ -1,12 +1,21 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from 'styled-components'
 
 
 const KanbanBoard = () => {
+    const onDragStart = () => { }
+    const onDragEnd = () => { }
     return (
         <KanbanBoardGrid>
             KanbanBoard
+            <DragDropContext
+                onDragStart={onDragStart}
+                onDragEnd={onDragEnd}
+            >
+                <div>Hello world</div>
+            </DragDropContext>
         </KanbanBoardGrid>
     )
 };
