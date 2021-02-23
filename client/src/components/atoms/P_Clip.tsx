@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import useInput from "../../hooks/useInput";
 import useModal from "../../hooks/useModal";
-import usePrivateClip from "../../hooks/usePrivateClip";
+import usePublicClip from "../../hooks/usePublicClip";
 import { useDrag, useDrop } from "react-dnd";
 import Modal from "react-modal";
 import styled from "styled-components";
@@ -33,7 +33,7 @@ const customStyles = {
   },
 };
 
-const Clip = ({
+const P_Clip = ({
   id,
   title,
   url,
@@ -43,7 +43,7 @@ const Clip = ({
 }: Clipinput) => {
   const originalIndex = findClip(id).index;
   const ItemTypes = { CLIP: "clip" };
-  const { deletePrivateClip, editPrivateClip } = usePrivateClip();
+  const { deletePublicClip, editPublicClip } = usePublicClip();
   const [editModal, setEditModal] = useState(false);
   const [switchClip, setSwitchClip] = useState(false);
   const [{ isDragging }, drag] = useDrag({
@@ -86,7 +86,7 @@ const Clip = ({
       url: urlState,
       discription: discriptionState,
     };
-    editPrivateClip(obj);
+    editPublicClip(obj);
     setEditModal(false);
   };
   const openModal = () => {
@@ -110,7 +110,7 @@ const Clip = ({
       <div>{title}</div>
 
       <button onClick={() => openModal()}>edit</button>
-      <button onClick={() => deletePrivateClip(Number(id))}>delete</button>
+      <button onClick={() => deletePublicClip(Number(id))}>delete</button>
       <Modal
         isOpen={editModal}
         onRequestClose={() => setEditModal(false)}
@@ -174,4 +174,4 @@ const ClipWrapper = styled.a`
   border-color: aqua;
 `;
 
-export default Clip;
+export default P_Clip;

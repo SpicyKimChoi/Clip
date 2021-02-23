@@ -5,6 +5,8 @@ import makeUrl from "../modules/Url";
 import makeTitle from "../modules/Title";
 import makeDiscription from "../modules/Discription";
 import privateClip from "../modules/PrivateClip";
+import publicClip from "../modules/PublicClip";
+import checkAddModal from "../modules/AddModal";
 const rootReducer = combineReducers({
   checkLogin,
   checkModal,
@@ -12,6 +14,8 @@ const rootReducer = combineReducers({
   makeUrl,
   makeTitle,
   privateClip,
+  publicClip,
+  checkAddModal,
 });
 
 export default rootReducer;

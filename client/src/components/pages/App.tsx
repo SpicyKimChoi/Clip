@@ -4,6 +4,7 @@ import GlobalStlyes from "../../style/GlobalStyle";
 import Header from "../templates/top/Header";
 
 import Combine from "../templates/Combine";
+import AddModal from "../atoms/AddModal";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <GlobalStlyes />
       <Header />
       <Combine />
+      <AddModal />
     </Page>
   );
 }

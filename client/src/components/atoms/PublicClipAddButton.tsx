@@ -2,23 +2,23 @@ import useModal from "../../hooks/useModal";
 import useInput from "../../hooks/useInput";
 import useAddModal from "../../hooks/useAddModal";
 
-const ClipAddButton = () => {
+const PublicClipAddButton = () => {
   const { onOpen } = useModal();
   const { makeTitle, makeUrl, makeDiscription } = useInput();
-  const { makePrivate } = useAddModal();
+  const { makePublic } = useAddModal();
   const openModal = () => {
     onOpen();
-    makePrivate();
+    makePublic();
     makeTitle("");
     makeUrl("");
     makeDiscription("");
   };
 
   return (
-    <button className="private" onClick={() => openModal()}>
+    <button className="public" onClick={() => openModal()}>
       +
     </button>
   );
 };
 
-export default ClipAddButton;
+export default PublicClipAddButton;

@@ -4,6 +4,7 @@ const MODALCLOSE = "ModalState/MODALCLOSE" as const;
 type ModalState = {
   isOpen: boolean;
 };
+
 type ModalAction = ReturnType<typeof modalOpen> | ReturnType<typeof modalClose>;
 
 export const modalOpen = () => ({
