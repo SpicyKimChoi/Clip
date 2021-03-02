@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from 'styled-components'
-
+import CreateKanban from '../../atoms/CreateKanban'
 
 const KanbanBoard = () => {
     const onDragStart = () => { }
@@ -15,6 +15,7 @@ const KanbanBoard = () => {
                 onDragEnd={onDragEnd}
             >
                 <div>Hello world</div>
+                <CreateKanban />
             </DragDropContext>
         </KanbanBoardGrid>
     )
